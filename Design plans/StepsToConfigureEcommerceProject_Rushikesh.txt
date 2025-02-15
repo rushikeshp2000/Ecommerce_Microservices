@@ -1,0 +1,397 @@
+Creating a microservice with mongodb as repository
+
+1) create a spring starter web project and the dependency of spring web and spring-data-mongodb
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+2) Add the configurations of the mongodb inside application.properties or application.yml
+
+server:
+  port: 8092
+  
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/databaseName
+      database: databaseName
+
+3) Make controller , service and methods to handle the rest endpoints
+
+4) Make a entity class of a database by marking it with annotation of @Document("Collectionname") and mark a property as @Id , and the mongodb will automatically generate Id for it.
+
+5) Make a repository by extending the MongoRepository<EntityName , EntityIDDatatype>
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Steps to generate spring boot code(api interface and model class) from the swagger yaml file
+
+1) make a swagger.yaml file , verify the file is error free on the editor.swagger.io (shows endpoints in visualaize format.)
+
+for example sample swagger yaml code --> this swagger code is to get the employee data .
+
+openapi: 3.0.3
+info:
+  title: Swagger Demo Project - OpenAPI 3.0
+  description: |-
+    demo of creating a microservice using the swagger file.
+  version: 1.0.0
+
+  
+paths:
+  /company/employees:
+    get:
+      summary: this is a employee summary
+      description: get all the employee
+      operationId: getAllEmployeesFromCompany
+      responses:
+        '200':
+          description: okay accepted
+          content: 
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Employee'
+                
+components:
+  schemas:
+    Employee:
+      description: This is the employee model
+      type: object
+      properties:
+        id:
+          description: the id of employee
+          type: integer
+        name:
+          description: the name of employee
+          type: string
+        address:
+          description: the address of employee
+          type: string
+  
+2) then we will create a "swagger-config.json" a file that will have swagger configurations.
+
+{
+  "modelPackage": "-give a full package name of project and make a new package for model -",
+  "apiPackage": "-give a full package name of project and make a new package for control-",
+  "invokerPackage": "-give a full package name of project and make a new package for handler -",
+  "groupId": "-project qroupid-",
+  "artifactId": "-provide artifact id-",
+  "fullJavaUtil": false,
+  "dateLibrary": "java8",
+  "generateSupportingFiles": false
+}
+
+refer to the sample code from ( swagger_template_to_generate_apicode )
+
+{
+  "modelPackage": "com.swagger.springboot.model",
+  "apiPackage": "com.swagger.springboot.controller",
+  "invokerPackage": "com.swagger.springboot.handler",
+  "groupId": "com.swagger.springboot",
+  "artifactId": "SwaggerWithSpring",
+  "fullJavaUtil": false,
+  "dateLibrary": "java8",
+  "generateSupportingFiles": false
+}
+
+3) Add both files inside the src/main/resources 
+
+directory structure 
+  
+      projectname
+              --> src 
+                    - main 
+                        - resoruces
+                            application.yml
+                            swagger.yaml
+                            swagger-config.json
+
+4) Add the required dependency of the swagger .
+
+	<dependency>
+	   <groupId>org.openapitools</groupId>
+	   <artifactId>openapi-generator</artifactId>     
+	   <version>4.3.1</version>                  //version should same as the plugin which is declared inside the <properties>
+        </dependency>
+		
+	<dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.1</version>
+        </dependency>
+          
+        <dependency>
+	    <groupId>io.swagger</groupId>
+	    <artifactId>swagger-annotations</artifactId>
+	    <version>1.6.10</version>
+	</dependency>
+		
+	<dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+     
+        <dependency>
+	    <groupId>io.springfox</groupId>
+	    <artifactId>springfox-swagger2</artifactId>
+	    <version>2.9.2</version>
+        </dependency>
+          
+        <dependency>
+	    <groupId>io.springfox</groupId>
+	    <artifactId>springfox-swagger-ui</artifactId>
+	    <version>2.9.2</version>
+	</dependency>  
+		
+	<dependency>
+  	    <groupId>io.swagger.parser.v3</groupId>
+  	    <artifactId>swagger-parser</artifactId>
+  	    <version>2.0.21</version>
+	</dependency>
+
+5)  Inside the <properties> describe the version of the openapi-generator.version and it should be same as the dependency of openapi generator
+
+  	<properties>
+		<java.version>17</java.version>
+		<openapi-generator.version>4.3.1</openapi-generator.version>
+	</properties>
+
+6) Add the plugin and inside the plugin <inputspec> put the resource path of swagger.yaml file.and inside the <configurationFile> put the path of the swagger-config.json .
+
+    <plugin>
+	<groupId>org.openapitools</groupId>
+	<artifactId>openapi-generator-maven-plugin</artifactId>
+	<version>${openapi-generator.version}</version>
+	<executions>
+	    <execution>
+		<goals>
+		    <goal>generate</goal>
+		</goals>
+		<configuration>
+			<inputSpec>${project.basedir}/src/main/resources/swagger.yaml</inputSpec>
+			<language>spring</language>			              
+			 <output>.</output>
+			 <configurationFile>${project.basedir}/src/main/resources/swagger-config.json</configurationFile>
+			 <generateSupportingFiles>false</generateSupportingFiles>   //  ApiUtil.java
+		 </configuration>
+	      </execution>
+          </executions>
+      </plugin>    
+
+7) Now click on runas --> maven clean then again runas-->maven install
+   else use mvn clean install.
+
+8) it will show error on ApiUtil file so to solve it make class of same name and put this contents inside it.
+
+import java.io.IOException;
+
+import org.springframework.web.context.request.NativeWebRequest;
+
+import jakarta.servlet.http.HttpServletResponse;
+
+public class ApiUtil {
+public static void setExampleResponse(NativeWebRequest req, String contentType, String example) {
+try {
+	HttpServletResponse res = req.getNativeResponse(HttpServletResponse.class);
+	res.setCharacterEncoding("UTF-8");
+	res.addHeader("Content-Type", contentType);
+	res.getWriter().print(example);
+    } catch (IOException e) {
+	throw new RuntimeException(e);
+    }
+  }
+}
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+Creating a eureka server - In the microservices projects, Service Registry and Discovery play an important role because we most likely run multiple instances of services and we need a mechanism to call other services without hardcoding their hostnames or port numbers. In addition to that, in Cloud environments service instances may come up and go down anytime. So we need some automatic service registration and discovery mechanism.
+Spring Cloud addresses this problem by providing Spring Cloud Netflix Eureka project to create Service Registry and Discovery. We can use Netflix Eureka Server to create a Service Registry and make our microservices (department-service and user-service) as Eureka Clients so that as soon as we start a microservice it will get registered with Eureka Server automatically with a logical Service ID. Then, the other microservices, which are also Eureka Clients, can use Service ID to invoke REST endpoints.
+
+1) create a spring boot project  - that will act as Service Registry
+
+2) add dependencies (Eureka Server - Spring cloud Discovery)spring-cloud-netflix-eureka-server , cloud bootstrap.
+	
+           <dependencies>	
+                <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+		</dependency>
+            <dependencies>
+
+           <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+3) Add @EnableEurekaServer annotation in main class where we have @SpringBootApplication annotation
+
+ 		@SpringBootApplication
+-->     	@EnableEurekaServer
+		public class CompanyServiceRegistryApplication 
+                {
+
+			public static void main(String[] args)
+                       {
+				SpringApplication.run(CompanyServiceRegistryApplication.class, args);
+			}
+
+		}
+
+4) now we dont want the server to act as a client so we will add config so that it will act as server registry only , add inside the application.properties  
+    
+	 1) eureka.instance.hostname: localhost --> we will provide name to this instance
+         2) eureka.client.register-with-eureka :false  --> it will not allow this project to register as cient
+         3) eureka.client.fetch-registry :false   --> it will not allow this project to be fetched as a client 
+   
+                eureka.instance.hostname=localhost
+		eureka.client.register-with-eureka=false
+                eureka.client.fetch-registry=false
+
+5) change the port number : 8761
+            
+                 server.port=8761
+          
+6) Run on the localhost it will show the spring eureka  --> http://localhost:8761
+           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Implementing Service Discovery Client - 
+1) open the Service 
+2) add dependency cloud bootstrap(spring cloud) , spring cloud discovery(eureka discovery client)
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+	</dependencies>	
+
+3) a) Inside <dependency management> add the <dependency of > spring cloud dependencies and
+            <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	    </dependencyManagement>
+	
+ 		
+
+   b) add cloud  version also , it should be placed just below the java <version>
+   (Note) we can also remove the cloud bootstrap(spring cloud) dependency as it is not used 
+   	<properties>
+		<java.version>17</java.version>
+		<spring-cloud.version>2022.0.2</spring-cloud.version>
+	</properties>
+
+4) In the Client service add the @EnableDiscoveryClient, we have to add it inside the main class which has @SpringBootApplication annotation.
+              @SpringBootApplication
+	      @EnableDiscoveryClient
+	      public class EmployeeMicroServiceApplication {
+
+	             public static void main(String[] args) {
+		               SpringApplication.run(EmployeeMicroServiceApplication.class, args);
+	              }
+               }
+
+5) add configuration inside the application properties'
+      --> eureka.instance.prefer-ip-address: true
+      --> client.fetch-registry:true
+      --> register-with-eureka:true
+      --> eureka.client.service-url.defaultZone:http://localhost:8761/eureka     /// it will use this address to register on server.
+
+        
+		eureka.instance.prefer-ip-address= true
+		eureka.client.fetch-registry=true	
+		eureka.client.register-with-eureka=true
+
+		eureka.client.service-url.defaultZone =http://localhost:8761/eureka
+
+		spring.application.name=EmployeeService
+      
+
+6) change the application name so that it will call the service from that name it is also done in the applcation.properties
+       application.name: any-name-you-want
+
+7) change the port number , as each service should have its own port number.
+
+---------------------------------------------------------------------------------------------------------------------------------
+** Calling one microservice from another microservice using Feign Client -
+
+The Feign is a declarative HTTP web client developed By netflix
+If we want to use Feign client , create an interface and annotate it.
+
+1)Add dependency - OpenFeign 
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+
+2) Now add annotation @EnableFeignClient inside the main class file which has @SpringBootApplication only in main service from where we are going to call another service.
+
+	@SpringBootApplication
+	@EnableDiscoveryClient
+	@EnableFeignClients
+	public class EmployeeMicroServiceApplication {
+
+		public static void main(String[] args) {
+			SpringApplication.run(EmployeeMicroServiceApplication.class, args);
+		}
+
+	}
+
+3) Create A DTO (data Transfer Object) class which will have the same fields which the we are requesting from the second microservice 
+
+     
+3) Create A interface that will hold the will act as a feign controller which will help us to get the data from the second microservice , we will add the @FeignClient(name = "microservice_name") in the parameters we will pass the name of the service that we want to call.
+
+     @FeignClient(name = "DEPARTMENTSERVICE")
+     public interface DepartmentFeign 
+     {
+	@GetMapping("/DeptMicroService/{deptId}")
+	public DepartmentDto getDepartment(@PathVariable String deptId);
+      }
+
+4) Now autowired the interface into service class and directly call this made and store into the Dto class .
+
+    @Autowired
+    DepartmentFeign departmentfeign;
+
+
+    @Service
+    public class EmployeeService
+    {
+    	DepartmentDto departmentDto = departmentfeign.getDepartment(employee.getDepartmentId());
+    }
+---------------------------------------------------------------------------------------------------------------------------
+

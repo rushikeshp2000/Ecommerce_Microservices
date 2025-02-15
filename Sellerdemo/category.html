@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+            body{
+                margin: 0;
+                background-image: url(images/pexels-ovan-62693.jpg);
+                 background-size: cover;
+            }
+
+            #navbar{
+                width: 98vw;
+                height: 10vh;
+                background-color: rgb(177, 177, 177);
+                position: fixed;
+                display: flex;
+                padding: 20px ;
+                justify-content: space-between;
+            }
+
+            #logout{
+                margin: 0 30px 0 0px;
+            }
+
+            .imglogout{
+                margin: 0 0 0 20px;
+            }
+
+            .h2add{
+                margin: 0;
+            }
+
+            #categorypage
+            {
+                border: 2px solid black;
+                padding-top: 300px;
+                display: flex;
+            }
+
+            .h2add{
+            margin: 0;
+            font-family: cursive;
+            font-weight: 700;
+        }
+
+        #catgoryactivate
+        {
+           
+           display: flex;
+           margin: 30px 500px;
+           justify-content: space-between;
+        }
+
+        #Activate{
+            width: 100px;
+            background-color: rgb(80, 234, 88);
+            align-items: center;
+        }
+
+        #Deactivate{
+            background-color: red;
+            align-items: center;
+            
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <div>
+            <h2 class="h2add">Seller App</h2>
+        </div>
+        <div>
+            <input type="text" name="sellersearch">
+            <img src="images/search.jpg" alt="searchimage" height="30px" width="20px">
+        </div>
+        <div>
+            <img class="imglogout" src="images/logout.jpg" alt="logoutbtn" height="30px" width="20px"> 
+            <h2 class="h2add" id="logout">Logout</h2>
+        </div>
+    </div>
+    <div id="catgeorypage">
+        
+    </div>
+     <div id="catgoryactivate">
+        <div id="Activate">
+            <h2 id="accept">Activate</h2>
+        </div>
+        <div id="Deactivate">
+            <h2 id="deaccept">Deactivate</h2>
+        </div>
+    </div>
+    <div id="setstatus">
+        <h2>Press activate to active all</h2>
+    </div>
+    <script>
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const seller = urlParams.get('seller');
+        const showcategory = urlParams.get('category');
+        console.log(seller);
+
+    fetch('http://localhost:8092/product/seller/'+ seller+'/'+ showcategory)
+            .then(response => response.json()) 
+            .then(data => {
+                console.log(data);
+                let array = data.result;
+
+                let parent = document.getElementById("catgeorypage");
+                let headingone = document.createElement("h1");
+                headingone.textContent = array[0].category;
+                headingone.style.margin = "0px";
+                headingone.style.paddingTop="150px";
+                headingone.style.fontSize = "60px";
+                headingone.style.textAlign="center";
+                parent.appendChild(headingone);
+
+                 let homeproducts = document.createElement("div");
+                 homeproducts.style.border = '2px solid black';
+                 homeproducts.style.display = 'flex';
+                 homeproducts.style.width = "98vw";
+                 homeproducts.style.flexWrap = "Wrap";
+                 homeproducts.style.margin = "40px 0px";
+                 homeproducts.style.backgroundColor = ""
+                 parent.appendChild(homeproducts);
+                console.log(data);
+               
+                array.forEach(element => {
+                                let cardlayout = document.createElement("div");
+                        cardlayout.style.border = '2px solid black';
+                        cardlayout.style.margin = '30px';
+                        cardlayout.style.height = '290px';
+                        cardlayout.style.width = '300px';
+                        if(element.status == "INACTIVE")
+                        {
+                            cardlayout.style.backgroundColor = "rgb(244, 106, 106)";
+                        }else
+                        {
+                            cardlayout.style.backgroundColor ="white";
+                        }
+                        cardlayout.addEventListener('click',function(){
+                                window.location.href= 'previewProduct.html?seller=' + seller+'&product='+ element.name ;
+
+                        })
+                        homeproducts.appendChild(cardlayout);
+
+                        let imagecard = document.createElement("div");
+                        imagecard.style.height = "220px";
+                        cardlayout.appendChild(imagecard);
+
+                        
+                        let image = document.createElement("img")
+                            let imgelement = element.images[0].imagedata;
+                            image.src= "data:image/png;base64," + imgelement;
+                            image.alt="imgpic";
+                            image.style.height= '220px';
+                            image.style.width = '100%';
+                            imagecard.appendChild(image);
+
+                        let imagedata = document.createElement("div")
+                        cardlayout.appendChild(imagedata);
+
+                        let product = document.createElement("div");
+                        product.style.textAlign = "center";
+                        imagedata.appendChild(product);
+
+                        let h4product = document.createElement("h4");
+                        h4product.textContent = element.name;
+                        h4product.style.margin = "0px";
+                        product.appendChild(h4product);
+
+                        let pricediscount = document.createElement("div");
+                        pricediscount.style.marginTop = "20px";
+                        pricediscount.style.display = "flex";
+                        pricediscount.style.justifyContent = "space-between";
+                        imagedata.appendChild(pricediscount);
+
+                        let h4price = document.createElement("h4");
+                        h4price.textContent = "price : " + element.price;
+                        h4price.style.margin = "10px 20px";
+                        pricediscount.appendChild(h4price);
+
+                        let h4discount = document.createElement("h4");
+                        h4discount.textContent = "discount : " + element.discount;
+                        h4discount.style.margin = "10px 20px";
+                        pricediscount.appendChild(h4discount);
+                });
+              
+            }).catch(error => {
+              
+                console.error('Error:', error);
+            });
+
+
+
+           let Activate = document.getElementById('Activate');
+           Activate.addEventListener('click',function(){
+                    fetch('http://localhost:8092/product/status/'+seller+ '/active/'+showcategory,{
+                        method: 'PUT'
+                    })
+                    .then(response => response.json()) // Parse the response as JSON
+                    .then(data => {
+                        console.log(data);
+                        window.location.reload();
+                        alert("Category activated");
+
+                    }).catch(error => {
+                    // Handle any errors that occur during the request
+                    console.error('Error:', error);
+                    });
+                    let setstatus = document.getElementById('setstatus');
+                        setstatus.innerHTML = "<h2> Activated All products of category <h2>";
+           })
+
+           let Deactivate = document.getElementById('Deactivate');
+           Deactivate.addEventListener('click',function(){
+                    fetch('http://localhost:8092/product/status/'+seller+ '/inactive/'+showcategory,{
+                        method: 'PUT'
+                    })
+                    .then(response => response.json()) // Parse the response as JSON
+                    .then(data => {
+                        console.log(data);
+                        window.location.reload();
+                        alert("Category activated");
+
+                    }).catch(error => {
+                    // Handle any errors that occur during the request
+                    console.error('Error:', error);
+                    });
+                    let setstatus = document.getElementById('setstatus');
+                        setstatus.innerHTML = "<h2> DeActivated All products of category <h2>";
+           })
+
+            
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,10 @@
+{
+  "modelPackage": "com.ecommerce.order.model",
+  "apiPackage": "com.ecommerce.order.controller",
+  "invokerPackage": "com.ecommerce.order.handler",
+  "groupId": "com.ecommerce.order",
+  "artifactId": "Order",
+  "fullJavaUtil": false,
+  "dateLibrary": "java8",
+  "generateSupportingFiles": false
+}

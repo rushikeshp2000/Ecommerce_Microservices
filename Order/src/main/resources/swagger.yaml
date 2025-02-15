@@ -1,0 +1,133 @@
+openapi: 3.0.0
+info:
+  title: User MicroService 
+  description: Part of Ecommerce project, Handles User requests and generate response  
+  version: 1.0.0
+tags:
+  -  name: Order
+     description: order endpoint set
+     
+paths:
+
+
+  /order/{UserId}/{ProductName}:
+      post:
+        tags:
+          - Order
+        summary: Create new entry for order
+        description: This is used to create the order entry.
+        operationId: createOrder
+        parameters:
+          - in: path
+            name: UserId
+            required: true
+            schema:
+              type: string
+              description: user id to store in database
+          - in: path
+            name: ProductName
+            required: true
+            schema:
+              type: string
+              description: product name to save in database
+        responses:
+          '200':
+            description: Succesfull operation.
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/Order'
+  
+  /order/{UserId}:
+      post:
+        tags:
+          - Order
+        summary: Create new entry for order of all products
+        description: This is used to create the order entry.
+        operationId: createALLCartOrder
+        parameters:
+          - in: path
+            name: UserId
+            required: true
+            schema:
+              type: string
+              description: user id to store in database
+        responses:
+          '200':
+            description: Succesfull operation.
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/Order'
+    
+                
+  /order:
+      get:
+        tags: 
+          - Order
+        summary: get all entry
+        description: This is used to get all the entries.
+        operationId: getOrder
+        responses:
+          '200':
+            description: Succesfull operation.
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/Order'
+      
+  
+components:
+  schemas:
+
+          
+    Order:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+        statusMessage:
+          type: string
+          example: Operation completed successful
+        results:
+          type: array
+          items: 
+            type: object
+            properties:
+              orderId:
+                type: string
+              UserId:
+                type: string
+              SellerId:
+                type: string
+              UserName:
+                type: string
+              UserAddress:
+                type: string
+              UserPhone:
+                type: string
+              UserEmail:
+                type: string
+              ProductName:
+                type: string
+              price:
+                type: number
+                format: double
+              quantity:
+                type: integer
+              Totalprice:
+                type: number
+                format: double
+              createdBy:
+                type: string
+              createdDate:
+                type: string
+              updateDate:
+                type: string
+                
+        
+        
+        
+        

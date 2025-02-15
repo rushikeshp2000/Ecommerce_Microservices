@@ -1,0 +1,10 @@
+{
+  "modelPackage": "com.ecommerce.product.model",
+  "apiPackage": "com.ecommerce.product.controller",
+  "invokerPackage": "com.ecommerce.product.handler",
+  "groupId": "com.ecommerce.product",
+  "artifactId": "Project1.0",
+  "fullJavaUtil": false,
+  "dateLibrary": "java8",
+  "generateSupportingFiles": false
+}

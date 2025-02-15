@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    
+
+    #searchbox{
+        display: flex;
+        margin: 400px;
+        width: 190px;
+    }
+
+    #autolist{
+
+        width: 190px;
+        opacity: 0;
+    }
+
+    #autolist li{
+        list-style:  none;
+        border: 1px solid black;
+        padding: 2px 5px;
+    }
+
+    .imgicon{
+        height: 20px;
+        margin: 0px 0px 0px -20px;
+    }
+
+</style>
+<body>
+
+    <div id="searchbox">
+        <div id="inputbox">
+            <input type="text" placeholder="type to search" name="searchquery">
+            <div id="autolist">
+                <li>Hardware</li>
+                <li>Electronics</li>
+                <li>DailyUse</li>
+                <li>Grocery</li>
+            </div>  
+        </div>
+        <div class="imgicon"><img src="images/search.jpg" height="20px" width="20px"></div>
+    </div>
+
+    <script>
+
+        let searchbox = document.getElementById('searchbox');
+        let inputbox = document.getElementById('inputbox');
+        let autolist = document.getElementById('autolist');
+
+        inputbox.onkeyup = (e) =>{
+            console.log(e.target.value);
+            
+        }
+
+        let suggestions = [
+        "hardware", 
+        "electonics",
+        "laptop",
+        "mobile",
+        "map"
+
+        ];
+            
+
+    </script>
+
+
+</body>
+</html>

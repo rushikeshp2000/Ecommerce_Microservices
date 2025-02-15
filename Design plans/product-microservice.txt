@@ -1,0 +1,193 @@
+Product microservice-
+
+Product database :-
+product UUID
+Product Name 
+product Image
+product price
+product details
+product quantity
+Seller Name
+product category
+
+==================================================================
+
+Seller Database :-
+
+seller UUID
+seller Name
+seller address
+seller phone
+seller email
+seller ShopId
+seller status
+seller password
+
+===================================================================
+
+User database
+
+User UUID
+User name
+User address
+user phone 
+user email
+user password
+
+--------------------------------------------
+User cart database;
+User Id 
+product ID;
+
+User Table -
++------------------------------+--------------+------+-----+---------+-------+
+| Field                        | Type         | Null | Key | Default | Extra |
++------------------------------+--------------+------+-----+---------+-------+
+| Userid                       | varchar(255) | NO   | PRI | NULL    |       |
+| user_name                    | varchar(255) | NO   |     | NULL    |       |
+| user_phone                   | int          | NO   |     | NULL    |       |
+| user_Address                 | varchar(255) | NO   |     | NULL    |       |
+| start_date                   | datetime     | YES  |     | NULL    |       |
+| user_password                | varchar(255) | NO   |     | NULL    |       |
+| cart__id                     | int          | YES  | MUL | NULL    |       |
++------------------------------+--------------+------+-----+---------+-------+
+
+
+Cart table
++------------------------------+--------------+------+-----+---------+-------+
+| Field                        | Type         | Null | Key | Default | Extra |
++------------------------------+--------------+------+-----+---------+-------+
+| cart__id                     | int          | NO   | PRI | NULL    |       |
+| productid                    | varchar(255) | NO   |     | NULL    |       |
++------------------------------+--------------+------+-----+---------+-------+
+
+j
+relationship_table
+
++------------------------------+--------------+------+-----+---------+-------+
+| Field                        | Type         | Null | Key | Default | Extra |
++------------------------------+--------------+------+-----+---------+-------+
+| productid                    | varchar(255) | NO   |     | NULL    |       |
+| Userid                       | varchar(255) | NO   | PRI | NULL    |       |
++------------------------------+--------------+------+-----+---------+-------+
+
+
+=====================================================================
+
+Admin
+
+admin UUID
+admin name
+admin address
+admin phone
+admin email
+admin password.
+=======================================================================
+ 
+Separate frontend application: Build a standalone frontend application using JavaScript frameworks/libraries like React, Angular, or Vue.js. This approach allows you to have a clean separation of concerns between the frontend and backend. The frontend application communicates with the Spring Boot microservice via RESTful APIs.
+
+Server-side rendering (SSR): Use server-side rendering frameworks like Thymeleaf or JSP (JavaServer Pages) to generate HTML on the server-side and send it to the client. These frameworks allow you to embed dynamic content from your Spring Boot microservice directly into your HTML templates. This approach is useful for generating dynamic web pages with minimal JavaScript interactivity.
+
+
+
+Ways to connect to html and css 
+
+1) By creating a separate html,css and javascript application and fetching the data using the Json for that we have to use the promises
+and also add cross orgin inside the spring boot app.
+
+
+A) changes inside the javascript file.
+
+          // Make a GET request to the REST  API endpoint
+            fetch('http://localhost:8090/company/employees')
+            .then(response => response.json()) // Parse the response as JSON
+            .then(data => {
+                // Use the country data
+                console.log(data);
+                // Process the data further or update your application state    
+            })
+            .catch(error => {
+                // Handle any errors that occur during the request
+                console.error('Error:', error);
+            });
+
+B) Adding the crossorigin on the controller and then it works.
+
+@Controller
+@RequestMapping("${openapi.swaggerDemoProjectOpenAPI30.base-path:}")
+@CrossOrigin(origins = "http://127.0.0.1:5500")                       <--- use this to solve error. 
+public class CompanyApiController implements CompanyApi {
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2) We can use themyleaf ->  install the server 
+ 
+where we will makw 
+
+
+=====================================================================================================
+Storing the images inside the database - 
+
+1) creating a swagger endpoint for getting a image: 
+property name as anything and choose type as string and format as binary
+
+ imagefile1:
+          type: string
+          format: binary
+
+
+=========================================================================================================
+
+Basics of MongoDb, Installation of MongoDB.
+
+
+Connecting mongodb with springboot.
+1) add mongo dependency -> Spring Data MongoDB
+2) add "Document(collection = 'collectionName')" on the top of the model.
+3) then make a repository that extends MongoRepository<Entity,DataType>
+4) inside application.properties
+
+spring.data.mongodb.host = localhost
+spring.data.mongodb.port = 27017
+spring.data.mongodb.database = databasename
+
+
+1) Add mongo dependency inside the pom.xml
+
+	<dependency>
+      		<groupId>org.springframework.boot</groupId>
+      		<artifactId>spring-boot-starter-data-mongodb</artifactId>
+    	</dependency>
+
+2) Add the application properties yaml to connect to database
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: Ecommerce 
+
+3)
+ 
+===============================================================================================
+changes to add only interface
+
+<configOptions>
+       <interfaceOnly>true</interfaceOnly>
+</configOptions>
+
+
+==================================================================================================
+Sending files -> 
+go to post man
+1) select body and form-data option
+2) then you can see the key and value pairs
+3) inside the key you can see the option of {text,file} from there choose the file option
+4) From 'value' option there is a select option , from it select the file from the computer 
+5) send other data just choose key as text for normal data.
+
+
+
+

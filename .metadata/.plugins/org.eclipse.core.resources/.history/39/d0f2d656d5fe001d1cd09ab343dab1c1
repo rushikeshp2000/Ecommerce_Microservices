@@ -1,0 +1,15 @@
+package com.ecommerce.productService.api.controller;
+
+import java.util.Optional;
+
+import org.springframework.web.context.request.NativeWebRequest;
+
+public class ProductController implements ProductApi,ProductsApi{
+
+	@Override
+	public Optional<NativeWebRequest> getRequest() {
+		// TODO Auto-generated method stub
+		return ProductApi.super.getRequest();
+	}
+	
+}

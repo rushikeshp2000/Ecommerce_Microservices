@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f2f2f2;
+          margin: 0;
+          padding: 0;
+        }
+    
+        .container {
+          max-width: 400px;
+          margin: 100px auto;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 5px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    
+        .container h2 {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+    
+        .container label,
+        .container input[type="email"],
+        .container input[type="password"],
+        .container input[type="submit"] {
+          display: block;
+          width: 100%;
+          margin-bottom: 10px;
+          box-sizing: border-box;
+        }
+    
+        .container label {
+          font-weight: bold;
+        }
+    
+        .container input[type="email"],
+        .container input[type="password"] {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+    
+        .container input[type="submit"] {
+          padding: 10px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    
+        .container input[type="submit"]:hover {
+          background-color: #45a049;
+        }
+    
+        .error {
+          color: red;
+          font-size: 0.8em;
+          margin-top: 5px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="submitForm(event)">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+    
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+    
+          <input type="submit" value="Login">
+        </form>
+      </div>
+    
+      <script>
+        function submitForm(event) {
+          event.preventDefault();
+    
+          var emailone = document.getElementById("email").value;
+          var passwordone = document.getElementById("password").value;
+    
+          // Validate email and password
+          if (!validateEmail(emailone)) {
+            showError("Invalid email format");
+            return;
+          }
+    
+          if (!validatePassword(passwordone)) {
+            showError("Invalid password format");
+            return;
+          }
+
+        fetch('http://localhost:8087/seller/login?email='+ emailone +'&password=' + passwordone)
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+
+          console.log(data);
+          myfunctionc(data.name);
+
+            // Process the data further or update your application state
+        })
+        .catch(error => {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        });
+          function myfunctionc(userid)
+          {
+            console.log(userid);
+            alert("Login Successful!");
+           window.location.href = 'adminhome.html?name='+ userid;
+          }
+
+        }
+    
+        function validateEmail(emailone) {
+          var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return regex.test(emailone);
+        }
+    
+        function validatePassword(passwordone) {
+          // Password validation criteria, e.g., at least 8 characters long, etc.
+          return passwordone.length >= 7;
+        }
+    
+        function showError(errorMessage) {
+          var errorElement = document.createElement("div");
+          errorElement.classList.add("error");
+          errorElement.innerText = errorMessage;
+    
+          var form = document.getElementById("loginForm");
+          form.appendChild(errorElement);
+        }
+      </script>
+    </body>
+    </html>

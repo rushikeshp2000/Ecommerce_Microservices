@@ -1,0 +1,5 @@
+package com.ecommerce.productService.api.controller;
+
+public class ProductController {
+
+}

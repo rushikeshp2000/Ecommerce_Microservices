@@ -1,0 +1,14 @@
+server:
+  port: 8096
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/Mongodb
+      database: Mongodb
+      
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 256MB
+      max-request-size: 256MB

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body{
+            margin: 0;
+            background-color: rgb(227, 227, 227);
+        }
+
+        #navbar{
+            width: 98vw;
+            height: 10vh;
+            background-color: rgb(255, 255, 255);
+            position: fixed;
+            display: flex;
+            padding: 20px ;
+            justify-content: space-between;
+        }
+
+        #logout{
+            margin: 0 30px 0 0px;
+        }
+
+        .imglogout{
+            margin: 0 0 0 20px;
+        }
+
+        #AddProduct{
+            border: 2px black solid;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .h2add{
+            margin: 0;
+        }
+
+        #category{
+
+            border: 2px solid black;
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+        }
+
+        #Hardware{
+            margin-top: 200px;
+        }
+
+        .Listclass{
+         border: 2px solid black;
+            margin-left: 400px;
+            margin-right: 400px;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="navbar">
+        <div>
+            <h2>Admin Control</h2>
+        </div>
+        <div>
+            <input type="text" name="sellersearch">
+            <img src="images/search.jpg" alt="searchimage" height="30px" width="20px">
+        </div>
+        <div>
+            <img class="imglogout" src="images/logout.jpg" alt="logoutbtn" height="30px" width="20px"> 
+            <h2 id="logout">Logout</h2>
+        </div>
+    </div>
+
+    <div id="category">
+        <div class="Listclass" id="Hardware" onclick="gotohardware()">
+            <h2>Seller Data</h2>
+        </div>
+        <div class="Listclass" id="Office" onclick="gotooffice()">
+            <h2>Order history</h2>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        console.log(name);
+    
+
+        function gotohardware(){
+            window.location.href = "SellerData.html";
+            
+        }
+
+        function gotooffice(){
+            window.location.href = "ProductData.html";
+        }
+
+    </script>
+</body>
+</html>

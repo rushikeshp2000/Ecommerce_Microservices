@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+            body{
+            margin: 0;
+            background-color: rgb(227, 227, 227);
+        }
+
+        #navbar{
+            width: 98vw;
+            height: 10vh;
+            background-color: rgb(255, 255, 255);
+            position: fixed;
+            display: flex;
+            padding: 20px ;
+            justify-content: space-between;
+        }
+
+        #logout{
+            margin: 0 30px 0 0px;
+        }
+
+        .imglogout{
+            margin: 0 0 0 20px;
+        }
+        #orderDetails
+        {
+            padding-top: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <div>
+            <h2>Admin Control</h2>
+        </div>
+        <div>
+            <h2>Check Order Details</h2>
+        </div>
+        <div>
+            <img class="imglogout" src="images/logout.jpg" alt="logoutbtn" height="30px" width="20px"> 
+            <h2 id="logout">Logout</h2>
+        </div>
+    </div>
+    <div id="orderDetails"></div>
+
+    <script>
+
+        
+
+
+
+          fetch('http://localhost:8084/order')
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            console.log(data);
+
+
+           
+
+            const array2 = data.results;
+            const uniqueSet = new Set();
+            array2.forEach(element => {
+                
+                uniqueSet.add(element.SellerId);
+            });
+            const myarray = [...uniqueSet];
+            for (let i = 0; i < myarray.length; i++)
+            {
+                   displayfunc(myarray[i]);
+            }
+
+            function displayfunc(sellerId)
+            {
+                let array = data.results;
+
+                let parentdata = document.getElementById('orderDetails');
+                    let sellerlist = document.createElement("div");
+                    sellerlist.style.border = "2px  solid black";
+                    sellerlist.style.width = "700px";
+                    sellerlist.style.margin = "50px 400px";
+                    parentdata.appendChild(sellerlist);
+
+                    let h3SellerId = document.createElement('h3');
+                    h3SellerId.textContent = sellerId;
+                    h3SellerId.style.padding = "0px 200px";
+                    h3SellerId.style.border = "2px solid black";
+                    h3SellerId.style.margin = "0px";
+                    sellerlist.appendChild(h3SellerId);
+                
+             array.forEach(element => {
+
+                if(element.SellerId == sellerId )
+                {
+                    let listproduct = document.createElement('div');
+                    listproduct.style.display = "flex";
+                    listproduct.style.justifyContent = "space-around";
+                    sellerlist.appendChild(listproduct);
+
+                    let sellerinfo = document.createElement('div');
+                    sellerinfo.style.marginLeft = "20px";
+                    listproduct.appendChild(sellerinfo);
+
+                    let h3one = document.createElement('h3');
+                    h3one.textContent = "Order-Id : " +element.orderId;
+                    sellerinfo.appendChild(h3one);
+
+                    let h3two = document.createElement('h3');
+                    h3two.textContent = "Product Brought : "+ element.ProductName;
+                    sellerinfo.appendChild(h3two);
+
+                    let h3three = document.createElement('h3');
+                    h3three.textContent ="order by userId :" + element.createdBy;
+                    sellerinfo.appendChild(h3three);
+
+                    let h3four = document.createElement('h3');
+                    h3four.textContent = "ordered date :" +  element.createdDate;
+                    sellerinfo.appendChild(h3four);
+
+
+                }
+             });
+            }
+
+        })
+        .catch(error => {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        });
+    </script>
+
+</body>
+</html>

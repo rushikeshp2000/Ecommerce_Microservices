@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body{
+            margin: 0;
+            background-image: url(images/pexels-veeterzy-303383.jpg);
+            background-size: cover;
+        }
+
+        #navbar{
+            width: 98vw;
+            height: 10vh;
+            background-color: grey;
+            position: fixed;
+            display: flex;
+            padding: 20px ;
+            justify-content: space-between;
+        }
+
+        #logout{
+            margin: 0 30px 0 0px;
+        }
+
+        .imglogout{
+            margin: 0 0 0 20px;
+        }
+
+        #AddProduct{
+            border: 2px black solid;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .h2add{
+            margin: 0;
+            font-family: cursive;
+            font-weight: 700;
+        }
+
+        #category{
+
+            border: 2px solid black;
+            height: 100vh;
+            width: 100vw;
+            text-align: center;
+        }
+
+        #Electronics{
+            margin-top: 200px;
+        }
+
+        .Listclass{
+            color: white;
+            margin-left: 600px;
+            margin-right: 600px;
+            margin-bottom: 50px;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="navbar">
+        <div>
+            <h2 class="h2add">Seller App</h2>
+        </div>
+        <div>
+            <input type="text" name="sellersearch">
+            <img src="images/search.jpg" alt="searchimage" height="30px" width="20px">
+            <div id="AddProduct">
+                <h2 class="h2add">Add A Product</h2>
+            </div>
+        </div>
+        <div>
+            <img class="imglogout" src="images/logout.jpg" alt="logoutbtn" height="30px" width="20px"> 
+            <h2  class="h2add"id="logout">Logout</h2>
+        </div>
+    </div>
+
+    <div id="category">
+        <div class="Listclass" id="Electronics" onclick="gotohardware()">
+            <h2>CATEGORY</h2>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        console.log(name);
+
+        fetch('http://localhost:8092/product/seller/'+name)
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            const array2 = data.result;
+            const uniqueSet = new Set();
+            array2.forEach(element => {
+                
+                uniqueSet.add(element.category);
+            });
+            const myarray = [...uniqueSet];
+            for (let i = 0; i < myarray.length; i++)
+            {
+                  console.log(myarray[i]);
+                  let parentpart = document.getElementById('category');
+                  let listview = document.createElement('div');
+                  listview.style.border = "2px solid black";
+                  listview.style.backgroundColor = "#e2e2e2";
+                  listview.style.marginLeft = "400px";
+                  listview.style.marginRight = "400px";
+                  listview.style.marginBottom = "50px";
+                  listview.addEventListener('click', function()
+                  {
+                    let Viewcategory = myarray[i];
+                    console.log(Viewcategory);
+                    window.location.href = "category.html?seller="+name+"&category="+myarray[i];
+                  })
+                  parentpart.appendChild(listview);
+
+                  let h2catgeory = document.createElement('h2');
+                  h2catgeory.textContent = myarray[i];
+                  listview.appendChild(h2catgeory);
+
+            }
+
+        }).catch(error => {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        });
+
+
+
+        function gotohardware(){
+            console.log("hardware");
+           
+            
+        }
+
+        let productadd = document.getElementById("AddProduct");
+        productadd.addEventListener('click',function(){
+
+            window.location.href = "demoaddproduct.html?seller="+name;
+        })
+
+
+    </script>
+</body>
+</html>

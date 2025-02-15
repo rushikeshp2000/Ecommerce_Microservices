@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            background-image: url(images/pexels-ovan-62693.jpg);
+                 background-size: cover;
+           
+        }
+
+        #navbar{
+            width: 98vw;
+            height: 10vh;
+            background-color: rgb(173, 168, 168);
+            position: fixed;
+            display: flex;
+            padding: 20px ;
+            justify-content: space-between;
+        }
+
+        #logout{
+            margin: 0 30px 0 0px;
+        }
+
+        .imglogout{
+            margin: 0 0 0 20px;
+        }
+
+        .h2add{
+            margin: 0;
+            font-family: cursive;
+            font-weight: 700;
+        }
+
+        #mainpage
+        {
+            padding-top: 150px;
+            display: flex;
+        }
+
+</style>
+</head>
+<body>
+    <div id="navbar">
+        <div>
+            <h2 class="h2add">Seller App</h2>
+        </div>
+        <div>
+            <input type="text" name="sellersearch">
+            <img src="images/search.jpg" alt="searchimage" height="30px" width="20px">
+        </div>
+        <div>
+            <img class="imglogout" src="images/logout.jpg" alt="logoutbtn" height="30px" width="20px"> 
+            <h2 class="h2add" id="logout">Logout</h2>
+        </div>
+    </div>
+    <div id="mainpage">
+
+
+    </div>
+    <div id="EditPage">
+        <h2>Edit page</h2>
+    </div>
+    <script>
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const Productname = urlParams.get('product');
+
+
+fetch('http://localhost:8092/product/productView/'+ Productname)
+        .then(response => response.json()) 
+        .then(data => {
+
+            console.log(data);
+            let parent = document.getElementById("mainpage")
+            let productsideimages = document.createElement('div');
+            productsideimages.style.margin = "30px";
+            productsideimages.style.width = "14vw";
+            parent.appendChild(productsideimages);
+
+            let arrayimg =  data.result[0].images;
+            arrayimg.forEach(element => {
+                console.log(element);
+                let imgDisplay = document.createElement('img');
+                imgDisplay.src = "data:image/png;base64," + element.imagedata;
+                imgDisplay.alt = "image photo of product";
+                imgDisplay.style.height = "150px";
+                imgDisplay.style.width = "150px";
+                imgDisplay.style.margin = "20px";
+                imgDisplay.style.border = "2px solid black";
+                productsideimages.appendChild(imgDisplay);
+
+            });
+
+            let imagepreview = document.createElement('div');
+            imagepreview.style.width = "40vw";
+            imagepreview.style.margin = "80px 30px";
+            imagepreview.style.textAlign = "center";
+            parent.appendChild(imagepreview);
+
+            let imageactual = document.createElement('img');
+            imageactual.src = "data:image/png;base64," + data.result[0].images[0].imagedata;
+            imageactual.alt = "actual image picture";
+            imageactual.style.height = "500px";
+            imageactual.style.width = "500px";
+            imageactual.style.margin = "30px";
+            imageactual.style.border ="2px solid black";
+            imagepreview.appendChild(imageactual);
+
+            let sidedteails = document.createElement('div');
+            sidedteails.style.width = "40vw";
+            sidedteails.style.margin = "80px 30px";
+            parent.appendChild(sidedteails);
+
+            let productName = document.createElement('div');
+            sidedteails.appendChild(productName);
+
+            let mainname = data.result[0].name;
+            let array = mainname.split(" ");
+            let first = array.shift();
+            let remaining = array.join(" ");
+
+            let bigname = document.createElement('h2');
+            bigname.textContent = first;
+            bigname.style.fontSize = "30px";
+            bigname.style.margin = "5px 10px 2px 20px";
+            productName.appendChild(bigname);
+
+            let smallname = document.createElement('h2');
+            smallname.textContent = remaining;
+            smallname.style.fontSize = "50px";
+            smallname.style.margin = "5px 10px 2px 20px";
+            smallname.style.fontFamily = "'Times New Roman', Times, serif";
+            productName.appendChild(smallname);
+
+            let hrtab = document.createElement('hr');
+            sidedteails.appendChild(hrtab);
+
+            let productCart = document.createElement("div")
+            sidedteails.appendChild(productCart);
+
+            let priceDiscount = document.createElement("div");
+            priceDiscount.style.display = "flex";
+            priceDiscount.style.justifyContent = "space-around";
+            productCart.appendChild(priceDiscount);
+
+            let h3price = document.createElement('h3');
+            h3price.textContent = "Rs "+ data.result[0].price;
+            h3price.style.margin = "30px";
+            h3price.style.fontSize = "50px";
+            h3price.style.fontFamily ="'Times New Roman', Times, serif";
+            priceDiscount.appendChild(h3price);
+
+            let h4document = document.createElement('h3');
+            h4document.textContent = data.result[0].discount + "% OFF";
+            h4document.style.margin = "30px";
+            h4document.style.fontSize = "50px";
+            h4document.style.fontFamily ="'Times New Roman', Times, serif";
+            priceDiscount.appendChild(h4document);
+
+            let hrrt = document.createElement('hr');
+            sidedteails.appendChild(hrrt);
+
+            let productDetails = document.createElement('div');
+            sidedteails.appendChild(productDetails);
+
+            let productheading = document.createElement('h3');
+            productheading.textContent = "Product Details";
+            productheading.style.fontSize = "30px";
+            productheading.style.fontWeight = "100";
+            productheading.style.textDecoration = "underline";
+            productheading.style.textAlign = "center";
+            productDetails.appendChild(productheading);
+
+            let pg = document.createElement("p");
+            pg.style.margin = "30px";
+            pg.textContent = data.result[0].details;
+            productDetails.appendChild(pg);
+
+            let divofremain = document.createElement('div');
+            divofremain.style.display = "flex";
+            divofremain.style.justifyContent = "space-between"
+            productDetails.appendChild(divofremain);
+
+            let h3status = document.createElement('h3');
+            h3status.textContent = "STATUS :"+ data.result[0].status;
+            divofremain.appendChild(h3status);
+
+
+            let quantityofproduct = document.createElement('h3');
+            quantityofproduct.textContent = "QUANTITY LEFT : " + data.result[0].quantity;
+            quantityofproduct.marginRight = "70px";
+            divofremain.appendChild(quantityofproduct);
+
+            
+            let divofactive = document.createElement('div');
+            divofactive.style.display = "flex";
+            divofactive.style.justifyContent = "space-around"
+            productDetails.appendChild(divofactive);
+
+            let productactivate = document.createElement('h3');
+            productactivate.textContent = "ACTIVATE";
+            productactivate.style.backgroundColor = "rgb(160, 241, 151)";
+            productactivate.style.padding = "20px";
+            productactivate.addEventListener('click',function(){
+                fetch('http://localhost:8092/product/'+data.result[0].sellerNumber+ '/'+data.result[0].name,{
+                    }).then(response => response.json()) // Parse the response as JSON
+                    .then(data => {
+                        window.location.reload();
+                        alert("Product activated");
+
+                    }).catch(error => {
+                    // Handle any errors that occur during the request
+                    console.error('Error:', error);
+                    });
+
+            })
+            divofactive.appendChild(productactivate);
+
+            let productdeactive = document.createElement('h3');
+            productdeactive.textContent = "DEACTIVATE";
+            productdeactive.style.backgroundColor = "red";
+            productdeactive.style.padding = "20px";
+            productdeactive.addEventListener('click',function(){
+                fetch('http://localhost:8092/product/'+data.result[0].sellerNumber+ '/'+data.result[0].name,{
+                        method: 'DELETE'
+                    })
+                    .then(data => {
+                        window.location.reload();
+                        alert("Product Inactivated");
+
+                    }).catch(error => {
+                    // Handle any errors that occur during the request
+                    console.error('Error:', error);
+                    });
+
+            })
+            divofactive.appendChild(productdeactive);
+
+
+        }).catch(error => {
+            console.error('Error:', error);
+        });        
+
+
+        let editpage = document.getElementById('EditPage');
+        editpage.style.backgroundColor = "rgb(160, 241, 151)";
+        editpage.style.border = "2px solid black";
+        editpage.style.width = "500px";
+        editpage.style.marginLeft = "500px";
+        editpage.style.textAlign = "center";
+        editpage.addEventListener('click',function(){
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const Productname = urlParams.get('product');
+            const seller = urlParams.get('seller');
+            window.location.href = "Editpage.html?seller="+seller+"&product="+Productname;
+
+        })
+
+    </script>
+    
+</body>
+</html>

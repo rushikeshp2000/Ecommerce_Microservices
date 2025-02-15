@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: Product MicroService 
+  description: Part of Ecommerce project , handles product related requests.  
+  version: 1.0.3
+tags:
+  -  name: UserProduct
+     description: Product endpoint set for user
+     
+paths:
+  /products:
+    get:
+      tags:
+       - UserProduct
+      summary: get all the products
+      description: It gets all the products from the database
+      operationId: GetAllProducts
+      responses:
+        '200':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  
+    post:
+      tags:
+        - UserProduct
+      summary: post a product to database
+      description: it is used to save the data
+      operationId: SaveProduct
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductPost'
+      responses:
+        '201':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Product'  
+  /product/micro:   
+    post:
+      tags:
+        - UserProduct
+      summary: post a product to database
+      description: it is used to save the data
+      operationId: SaveProductMicro
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Product' 
+    
+  /product/byte:   
+    post:
+      tags:
+        - UserProduct
+      summary: post a product to database
+      description: it is used to save the data
+      operationId: SaveProductByte
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductByte'
+      responses:
+        '201':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductByte'  
+    
+components:
+  schemas:
+    Product:
+      description: This is the product object model
+      type: object
+      properties:
+        name :
+          type: string
+          example : shoes
+        category:
+          type: string
+          example: hardware
+        image:
+          type: array
+          items:
+             $ref: '#/components/schemas/ImageModelDate' 
+             
+    ImageModelDate:
+      description: This is the image model
+      type: object
+      properties:
+        imageName:
+          type: string
+          example: image
+        imageType:
+          type: string
+          example: jpeg
+        imagedata:
+          type: string
+             
+    ProductPost:
+      description: This is the product object model
+      type: object
+      properties:
+        name :
+          type: string
+          example : shoes
+        category:
+          type: string
+          example: hardware
+        image:
+          type: array
+          items:
+              $ref: '#/components/schemas/ImageModel' 
+              
+    ImageModel:
+      description: This is the image model
+      type: object
+      properties:
+        imageName:
+          type: string
+          example: image
+        imageType:
+          type: string
+          example: jpeg
+        imagedata:
+          type: string
+          format: binary
+        
+    ProductByte:
+      description: This is the product object model
+      type: object
+      properties:
+        name :
+          type: string
+          example : shoes
+        category:
+          type: string
+          example: hardware
+        image:
+          type: array
+          items:
+              $ref: '#/components/schemas/ImageModelByte' 
+              
+    ImageModelByte:
+      description: This is the image model
+      type: object
+      properties:
+        imageName:
+          type: string
+          example: image
+        imageType:
+          type: string
+          example: jpeg
+        imagedata:
+          type: string
+          format: byte

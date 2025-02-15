@@ -1,0 +1,475 @@
+openapi: 3.0.0
+info:
+  title: Product MicroService 
+  description: Part of Ecommerce project , handles product related requests.  
+  version: 1.0.3
+tags:
+  -  name: UserProduct
+     description: Product endpoint set for user
+  -  name: SellerProduct
+     description: Product endpoint set for seller
+  -  name: OrderProduct
+     description: Product endpoint set for Order
+     
+paths:
+  /products:
+    get:
+      tags:
+        - UserProduct
+      summary: get all the products
+      description: It gets all the products from the database
+      operationId: GetAllProducts
+      parameters:
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+            description: name of the product
+        - in: query
+          name: price
+          required: false
+          schema:
+            type: number
+            format: double
+            description: name of the product
+        - in: query
+          name: category
+          required: false
+          schema:
+            type: string
+            description: name of the product
+        - in: query
+          name: discount
+          required: false
+          schema:
+            type: integer
+            description: name of the product
+        - in: query
+          name: pageNumber
+          schema:
+            description: Page number (zero-based)
+            type: integer
+            default: 0
+        - in: query
+          name: pageSize
+          schema:
+            description: Number of records per page
+            type: integer
+            default: 15
+      responses:
+        '200':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - SellerProduct
+      summary: post a product to database
+      description: it is used to save the data
+      operationId: SaveProduct
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name :
+                  type: string
+                  example : shoes
+                price:
+                  type: string
+                  example: 12.25
+                details:
+                  type: string 
+                  example : description of the image that we want to show
+                quantity:
+                  type: string
+                  example: 10
+                sellerNumber:
+                  type: string
+                  example : ae04a3db-8169-4f91-95f9-478bdb107840
+                category:
+                  type: string
+                  example: hardware
+                discount:
+                  type: string
+                  example: 20
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductResponse' 
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+                
+                  
+  /product/{category}:
+    get:
+      tags:
+        - UserProduct
+      summary: get the list of specific category of products
+      description: It gets all the products from the specific category
+      operationId: GetAllCategoryProducts
+      parameters:
+        - in: path
+          name: category
+          required: true
+          schema:
+            type: string
+            description: category of the product
+        - in : query
+          name: productname
+          required: false
+          schema:
+            type: string
+            description: name of the product
+        - in: query
+          name: pageNumber
+          schema:
+            description: Page number (zero-based)
+            type: integer
+            default: 0
+        - in: query
+          name: pageSize
+          schema:
+            description: Number of records per page
+            type: integer
+            default: 15
+      responses:
+        '200':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          
+  /product/productView/{ProductName}:
+    get:
+      tags:
+        - UserProduct
+        - OrderProduct
+      summary: get a single product from the database by its name
+      description: returns a single product by matching name
+      operationId: GetSingleProducts
+      parameters:
+        - in: path
+          name: ProductName
+          required: true
+          schema:
+            type: string
+            description: category of the product
+      responses:
+        '200':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductResponse'  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error  
+   
+                  
+  /product/seller/{sellerID}/{category}:
+    get:
+      tags:
+        - SellerProduct
+      summary: get the list of specific seller selling products
+      description: It gets all the products from the specific seller
+      operationId: GetAllSellerProducts
+      parameters:
+        - in: path
+          name: category
+          required: true
+          schema:
+            type: string
+            description: category of the product
+        - in: path
+          name: sellerID
+          required: true
+          schema:
+            type: string
+            description: seller of the product
+        - in: query
+          name: pageNumber
+          schema:
+            description: Page number (zero-based)
+            type: integer
+            default: 0
+        - in: query
+          name: pageSize
+          schema:
+            description: Number of records per page
+            type: integer
+            default: 15
+      responses:
+        '200':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductResponse'  
+                  
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+  
+  /product/{sellerID}/{ProductName}:
+    get:
+      tags:
+        - SellerProduct
+      summary: get a single product from the database by its name
+      description: returns a single product by matching name
+      operationId: GetSingleProductBySeller
+      parameters:
+        - in: path
+          name: ProductName
+          required: true
+          schema:
+            type: string
+            description: category of the product
+        - in: path
+          name: sellerID
+          required: true
+          schema:
+            type: string
+            description: seller of the product
+      responses:
+        '200':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductResponse' 
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+  
+    put:
+      tags:
+        - SellerProduct
+      summary: changethe details of single product from the database by its name
+      description: change  a single product by matching name
+      operationId: updateSingleProducts
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name :
+                  type: string
+                  example : shoes
+                price:
+                  type: string
+                  example: 12.25
+                details:
+                  type: string 
+                  example : description of the image that we want to show
+                quantity:
+                  type: string
+                  example: 10
+                sellerNumber:
+                  type: string
+                  example : ae04a3db-8169-4f91-95f9-478bdb107840
+                category:
+                  type: string
+                  example: hardware
+                discount:
+                  type: string
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary  
+      parameters:
+        - in: path
+          name: ProductName
+          required: true
+          schema:
+            type: string
+            description: category of the product
+        - in: path
+          name: sellerID
+          required: true
+          schema:
+            type: string
+            description: seller of the product
+    
+      responses:
+        '200':
+          description: okay accepted
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ProductResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+      
+    delete:
+      tags:
+        - SellerProduct
+      summary: Delete product
+      description: This is a delete product.
+      operationId: deleteProduct
+      parameters:
+        - in: path
+          name: ProductName
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: sellerID
+          required: true
+          schema:
+            type: string
+            description: seller of the product
+      responses:
+        '200':
+          description: operation successful
+          content: {}
+  
+components:
+  schemas:
+    ProductResponse:
+      description: This is the response object of Product
+      type: object
+      properties:
+        result:
+           type: array
+           items:
+             $ref: '#/components/schemas/Product'
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+        statusMessage:
+          type: string
+          example: Operation completed successful                  
+                  
+    Product:
+      description: This is the product object model
+      type: object
+      properties:
+        name :
+          type: string
+          example : shoes
+        price:
+          type: number
+          format: double
+          example: 12.25
+        details:
+          type: string 
+          example : description of the image that we want to show
+        quantity:
+          type: integer
+          example: 10
+        sellerNumber:
+          type: string
+          format: UUID
+          example : ae04a3db-8169-4f91-95f9-478bdb107840
+        category:
+          type: string
+          example: hardware
+        discount:
+          type: integer
+          example: 20
+        images:
+          type: array
+          items:
+             $ref: '#/components/schemas/ImageModel' 
+        
+    ImageModel:
+      description: This is the image model
+      type: object
+      properties:
+        imageName:
+          type: string
+          example: image
+        imageType:
+          type: string
+          example: jpeg
+        imagedata:
+          type: string
+          
+    ErrorResponse:
+      description: This is the response object of Product
+      type: object
+      properties:
+        result:
+           type: array
+           items:
+             $ref: '#/components/schemas/Product'
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+        statusMessage:
+          type: string
+          example: Error        
+        
+        
+      
+   

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+        body{
+            margin: 0;
+           
+        }
+
+        #Logo{
+            margin: 0;
+        }
+
+        #logoimage{
+            width: 200px;
+            height: 90px;
+
+        }
+        
+        .image{
+            height: 30px;
+            width: 30px;
+        }
+
+        #mainnav
+        {
+            width: 100%; 
+            height: 95px;
+        }
+
+        #navbar{
+            display: flex; 
+            background-color: rgb(255, 255, 255);
+            position: fixed; 
+            margin-bottom: 0;
+            box-shadow: grey 8px 8px 15px 2px ;
+            width: 100%; 
+        }
+        .ulbar{
+            display: flex;
+            margin-bottom: 0;
+           
+        }
+
+        .listImages{
+            margin-right:10px;
+            list-style: none;
+           
+        }
+        .listImages2{
+            margin-right: 10px;
+            list-style: none;
+        }
+
+        .linknav{
+            text-decoration: none;
+            color: black;
+            font-size: 10px;
+            font-weight: 600;
+            font-family: cursive;
+            
+        }
+
+        .downlist
+        {
+            margin-top: 10px;
+            margin-left: 30px;
+            margin-bottom: 0;
+           
+        }
+        .navlist{
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: 540px;
+        }
+
+       
+
+        .searchbar{
+            margin-bottom: 10px;
+            margin-left: 300px;
+            width: 300px;
+        }
+
+        #searchicon{
+            margin-top: 20px;
+        }
+
+        #banner{
+            background-image: url(images/pexels-erik-mclean-4062467.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            border: 3px solid black;
+            height: 600px;
+            animation: change 15s infinite forwards;
+        }
+
+        #heading{
+            margin-top: 70px;
+            text-align: center;
+        }
+
+
+        @keyframes change{
+        0%{
+            background-image: url(images/pexels-erik-mclean-4062467.jpg);
+        }
+        50%{
+            background-image: url(images/pexels-ivan-samkov-5947556.jpg);
+        }
+        100%{
+            background-image: url(images/pexels-mister-mister-2442898.jpg);
+        }
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <div id="mainnav">
+            <div id="navbar">
+                <div id="Logo" class="divborder">
+                    <img src="images\logo2jpg.jpg" id="logoimage"alt="Logo">
+                </div>
+                <div class="divborder">
+                    <div>
+                        <input type="text" name="searchbar"  class="searchbar">
+                        <img id="searchicon" src="images\search.jpg" alt="search icon" height="30px" width="30px">
+                    </div>
+
+                    <ul class="ulbar downlist">
+                        <li class="listImages2 ">HARDWARE</li>
+                        <li class="listImages2 ">KIDS</li>
+                        <li class="listImages2 ">GROCERY</li>
+                        <li class="listImages2 ">ELECTRONICS</li>
+                        <li class="listImages2 ">FASHION</li>
+                        <li class="listImages2 ">DAILY-USE</li>
+                    </ul>
+                </div>
+                <div class="navlist divborder">
+                        <ul class="ulbar ">
+                            <li id="cartdiv" onclick="myFunction()" class="listImages cartclick"><img id="notify" class="image" src="images/add-to-cart.png" alt="CART logo" ><span id="itemcount">0</span>
+                            </li> <li class="listImages"><img class="image" src="images\logout.jpg" alt="lOGOUT logo"></li>
+                        </ul>
+                        <ul class="ulbar">
+                            <li  onclick="logout()"  class="listImages cartclick"><a class="navbarlinks linknav" href="cart.html">CART</a></li>
+                            <li  class="listImages"><a class="navbarlinks linknav" href="#">LOGOUT</a></li>
+                        </ul>
+                </div>
+            </div>
+        <div>
+    </div>
+
+    <div id="banner">
+    </div >
+    <div id="heading">
+    </div>
+    <div id="pageforlayout">
+    </div>
+
+    <script>
+
+        function logout()
+        {
+            window.location.href= 'login.html' ;
+        }
+
+        function myFunction()
+        {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            console.log(name);
+            window.location.href= 'cart.html?user=' + name ;
+        }
+
+
+        fetch('http://localhost:8092/products')
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            const array2 = data.result;
+            const uniqueSet = new Set();
+            array2.forEach(element => {
+                
+                uniqueSet.add(element.category);
+            });
+            const myarray = [...uniqueSet];
+            for (let i = 0; i < myarray.length; i++)
+            {
+                   displayfunc(myarray[i]);
+            }
+            // Process the data further or update your application state
+        }).catch(error => {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        });
+
+
+       function displayfunc(toserach)
+       {
+        fetch('http://localhost:8092/product/'+ toserach + '?offset=0&limit=4')
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+
+          const array = data.result
+                console.log(data.result);
+                let pageforlayout = document.getElementById("pageforlayout")
+                
+                let maindiv = document.createElement("div");
+                maindiv.style.textAlign = "center";
+                 pageforlayout.appendChild(maindiv);
+
+                 let headingone = document.createElement("h1");
+                 headingone.textContent = array[0].category +  " >> ";
+                 headingone.style.cursor = "pointer"
+                 headingone.style.margin = "0px";
+                 headingone.style.fontSize = "60px";
+                 headingone.addEventListener('click',function(){
+                    window.location.href = "category.html?category="+array[0].category;
+                 })
+                 maindiv.appendChild(headingone);
+
+                 let homeproducts = document.createElement("div");
+                 homeproducts.style.border = '2px solid black';
+                 homeproducts.style.height = '350px';
+                 homeproducts.style.display = 'flex';
+                 homeproducts.style.backgroundImage = "url(images/pexels-mister-mister-2442898.jpg)"
+                 homeproducts.style.backgroundSize = "1200px";
+                 homeproducts.style.backgroundPosition = "top left";
+                 homeproducts.style.margin = "40px 0px";
+                 maindiv.appendChild(homeproducts);
+
+                
+
+          array.forEach(element => {
+               let cardlayout = document.createElement("div");
+               cardlayout.style.border = '2px solid black';
+               cardlayout.style.margin = '30px';
+               cardlayout.style.height = '290px';
+               cardlayout.style.width = '300px';
+               cardlayout.style.backgroundColor ="white";
+               cardlayout.addEventListener('click',function(){
+
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const name = urlParams.get('name');
+                    console.log(name);
+                    window.location.href= 'previewProduct.html?user=' + name+'&product='+ element.name ;
+
+               })
+               homeproducts.appendChild(cardlayout);
+
+               let imagecard = document.createElement("div");
+               imagecard.style.height = "220px";
+               cardlayout.appendChild(imagecard);
+            
+                let array = element.images;
+                console.log(array);
+               
+               let image = document.createElement("img")
+                  let imgelement = array[0].imagedata;
+                  image.src= "data:image/jpeg;base64," + imgelement;
+                  image.alt="imgpic";
+                  image.style.height= '220px';
+                  image.style.width = '100%';
+                  imagecard.appendChild(image);
+
+               let imagedata = document.createElement("div")
+               cardlayout.appendChild(imagedata);
+
+               let product = document.createElement("div");
+               product.style.textAlign = "center";
+               imagedata.appendChild(product);
+
+               let h4product = document.createElement("h4");
+               h4product.textContent = element.name;
+               h4product.style.margin = "0px";
+               product.appendChild(h4product);
+
+               let pricediscount = document.createElement("div");
+               pricediscount.style.marginTop = "20px";
+               pricediscount.style.display = "flex";
+               pricediscount.style.justifyContent = "space-between";
+               imagedata.appendChild(pricediscount);
+
+               let h4price = document.createElement("h4");
+               h4price.textContent = "price : " + element.price;
+               h4price.style.margin = "10px 20px";
+               pricediscount.appendChild(h4price);
+
+               let h4discount = document.createElement("h4");
+               h4discount.textContent = "discount : " + element.discount;
+               h4discount.style.margin = "10px 20px";
+               pricediscount.appendChild(h4discount);
+
+
+          });
+            // Process the data further or update your application state
+        })
+        .catch(error => {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        });
+    }
+    </script>
+</body>
+</html>

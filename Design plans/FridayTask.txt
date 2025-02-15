@@ -1,0 +1,21 @@
+1) Multiple images upload 
+2) send images in base64 enocde
+3) implement pagination 
+
+3) Shared database for all the services.(*)  --- discuss
+
+4) History microservice- admin(all),user(single)(*)
+searcgbyorderid
+searchbyuserid.
+
+5) Admin - should control all microservice(*)
+
+
+Completed 
+
+1) limit- PAGESIZE - getNumberofelements 
+2) Offset - PAGENUMBER - getNumber,the start is from 0 , get pages
+3) TOTALRECORDS 
+4) Soft delete , status should become inactive(*)  
+5) Add createdBy , UpdatedBy , dateAndtime while creation.(*)
+6) data should be deleted(inactive) from cart and added to history microservice when called for buy .

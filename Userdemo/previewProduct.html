@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+           
+        }
+
+        #Logo{
+            margin: 0;
+        }
+
+        #logoimage{
+            width: 200px;
+            height: 90px;
+
+        }
+        
+        .image{
+            height: 30px;
+            width: 30px;
+        }
+
+        #mainnav
+        {
+            width: 100%; 
+            height: 95px;
+        }
+
+        #navbar{
+            display: flex; 
+            background-color: rgb(255, 255, 255);
+            position: fixed; 
+            margin-bottom: 0;
+            box-shadow: grey 8px 8px 15px 2px ;
+            width: 100%; 
+        }
+        .ulbar{
+            display: flex;
+            margin-bottom: 0;
+           
+        }
+
+        .listImages{
+            margin-right:10px;
+            list-style: none;
+           
+        }
+        .listImages2{
+            margin-right: 10px;
+            list-style: none;
+        }
+
+        .linknav{
+            text-decoration: none;
+            color: black;
+            font-size: 10px;
+            font-weight: 600;
+            font-family: cursive;
+            
+        }
+
+        .downlist
+        {
+            margin-top: 10px;
+            margin-left: 30px;
+            margin-bottom: 0;
+           
+        }
+        .navlist{
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: 540px;
+        }
+
+       
+
+        .searchbar{
+            margin-bottom: 10px;
+            margin-left: 300px;
+            width: 300px;
+        }
+
+        #searchicon{
+            margin-top: 20px;
+        }
+    
+
+        #mainpage{
+        padding-top: 60px;
+        width: 99%;
+        display: flex;
+        }
+
+        #productpreview
+        {        
+        margin: 30px;
+        width: 14vw;
+        }
+
+        #imagepreview{
+            width: 40vw;
+            margin: 80px 30px;
+            text-align: center;
+        }
+
+        .imgmain{
+            margin: 30px;
+            border: 2px solid black;
+        }
+
+        #sidedetails{
+            width: 40vw;
+            margin: 80px 30px;
+        }
+
+        .imgside{
+            margin: 20px;
+            border: 2px solid black;
+        }
+
+
+        #bigname{
+            margin: 5px  10px 2px 20px;
+            font-size: 30px;
+        }
+
+        #smallname{
+            margin: 5px 10px 2px 20px;
+            font-size: 50px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        #priceDiscount{
+            
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .price{
+            margin: 30px;
+            font-size: 50px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        #cartadd{
+            border: 2px solid black;
+            margin: 2px 90px;
+            text-align: center;
+        }
+
+        #carth3{
+            margin: 0;
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .hrtag{
+            display: block;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            border-style: inset;
+            border-width: 1px;
+        }
+
+        #productheading{
+            font-size: 30px;
+            font-weight: 100;
+            text-decoration: underline;
+            text-align: center;
+        }
+
+        .pgroup{
+            margin: 30px;
+        }
+
+        #mainpage{
+            background-image: url(images/pexels-ovan-62693.jpg)
+        }
+
+
+        </style>
+</head>
+<body>
+    <div>
+        <div id="mainnav">
+            <div id="navbar">
+                <div id="Logo" class="divborder">
+                    <img src="images\logo2jpg.jpg" id="logoimage"alt="Logo">
+                </div>
+                <div class="divborder">
+                    <div>
+                        <input type="text" name="searchbar"  class="searchbar">
+                        <img id="searchicon" src="images\search.jpg" alt="search icon" height="30px" width="30px">
+                    </div>
+
+                    <ul class="ulbar downlist">
+                        <li class="listImages2 ">HARDWARE</li>
+                        <li class="listImages2 ">KIDS</li>
+                        <li class="listImages2 ">GROCERY</li>
+                        <li class="listImages2 ">ELECTRONICS</li>
+                        <li class="listImages2 ">FASHION</li>
+                        <li class="listImages2 ">DAILY-USE</li>
+                    </ul>
+                </div>
+                <div class="navlist divborder">
+                        <ul class="ulbar ">
+                            <li id="cartdiv" onclick="myFunction()" class="listImages cartclick"><img id="notify" class="image" src="images/add-to-cart.png" alt="CART logo" ><span id="itemcount">0</span>
+                            </li>
+                            <li class="listImages"><img class="image" src="images\logout.jpg" alt="lOGOUT logo"></li>
+                        </ul>
+                        <ul class="ulbar">
+                            <li  class="listImages cartclick"><a class="navbarlinks linknav" href="#">CART</a></li>
+                            <li  class="listImages"><a class="navbarlinks linknav" href="#">LOGOUT</a></li>
+                        </ul>
+                </div>
+            </div>
+        <div>
+    </div>
+
+    <div id="mainpage">
+       
+    </div>
+
+    <hr>
+    <hr>
+
+    <script>
+        
+
+           
+        function myFunction()
+        {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('user');
+            console.log(name);
+            window.location.href= 'cart.html?user=' + name ;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+            const Productname = urlParams.get('product');
+            const name = urlParams.get('user');
+            console.log(Productname);
+
+        fetch('http://localhost:8092/product/productView/'+ Productname)
+        .then(response => response.json()) 
+        .then(data => {
+
+            console.log(data.result[0]);
+            let parent = document.getElementById("mainpage")
+            let productsideimages = document.createElement('div');
+            productsideimages.style.margin = "30px";
+            productsideimages.style.width = "14vw";
+            parent.appendChild(productsideimages);
+
+            let arrayimg =  data.result[0].images;
+            arrayimg.forEach(element => {
+                console.log(element);
+                let imgDisplay = document.createElement('img');
+                imgDisplay.src = "data:image/png;base64," + element.imagedata;
+                imgDisplay.alt = "image photo of product";
+                imgDisplay.style.height = "150px";
+                imgDisplay.style.width = "150px";
+                imgDisplay.style.margin = "20px";
+                imgDisplay.style.border = "2px solid black";
+                productsideimages.appendChild(imgDisplay);
+            });
+
+            let imagepreview = document.createElement('div');
+            imagepreview.style.width = "40vw";
+            imagepreview.style.margin = "80px 30px";
+            imagepreview.style.textAlign = "center";
+            parent.appendChild(imagepreview);
+
+            let imageactual = document.createElement('img');
+            imageactual.src = "data:image/png;base64," + data.result[0].images[0].imagedata;
+            imageactual.alt = "actual image picture";
+            imageactual.style.height = "500px";
+            imageactual.style.width = "500px";
+            imageactual.style.margin = "30px";
+            imageactual.style.border ="2px solid black";
+            imagepreview.appendChild(imageactual);
+
+            let sidedteails = document.createElement('div');
+            sidedteails.style.width = "40vw";
+            sidedteails.style.margin = "80px 30px";
+            parent.appendChild(sidedteails);
+
+            let productName = document.createElement('div');
+            sidedteails.appendChild(productName);
+
+            let mainname = data.result[0].name;
+            let array = mainname.split(" ");
+            let first = array.shift();
+            let remaining = array.join(" ");
+
+            let bigname = document.createElement('h2');
+            bigname.textContent = first;
+            bigname.style.fontFamily = "'Times New Roman', Times, serif"
+            bigname.style.fontSize = "30px";
+
+            bigname.style.margin = "5px 10px 2px 20px";
+            productName.appendChild(bigname);
+
+            let smallname = document.createElement('h2');
+            smallname.textContent = remaining;
+            smallname.style.fontSize = "50px";
+            smallname.style.margin = "5px 10px 2px 20px";
+            smallname.style.fontFamily = "'Times New Roman', Times, serif";
+            productName.appendChild(smallname);
+
+            let hrtab = document.createElement('hr');
+            sidedteails.appendChild(hrtab);
+
+            let productCart = document.createElement("div")
+            sidedteails.appendChild(productCart);
+
+            let priceDiscount = document.createElement("div");
+            priceDiscount.style.display = "flex";
+            priceDiscount.style.justifyContent = "space-around";
+            productCart.appendChild(priceDiscount);
+
+            let h3price = document.createElement('h3');
+            h3price.textContent = " Price : Rs"+ data.result[0].price;
+            h3price.style.margin = "30px";
+            h3price.style.fontSize = "30px";
+            h3price.style.fontFamily ="'Times New Roman', Times, serif";
+            priceDiscount.appendChild(h3price);
+
+            let h4document = document.createElement('h3');
+            h4document.textContent = "SALE "+data.result[0].discount + "% OFF";
+            h4document.style.margin = "30px";
+            h4document.style.fontSize = "30px";
+            h4document.style.fontFamily ="'Times New Roman', Times, serif";
+            priceDiscount.appendChild(h4document);
+
+            let selectedValue = 1;
+
+            const divElement = document.createElement('div');
+                divElement.id = 'quantityDiv';
+                productCart.appendChild(divElement);
+
+                const labelElement = document.createElement('label');
+                labelElement.setAttribute('for', 'quantity');
+                labelElement.textContent = 'Choose quantity';
+                labelElement.style.fontSize = "15px";
+                labelElement.style.marginBottom = "10px";
+                labelElement.style.marginLeft = "20px";
+
+
+
+
+                const selectElement = document.createElement('select');
+                selectElement.name = 'quantity';
+                selectElement.id = 'quantitySelect';
+                selectElement.style.fontSize = "15px";
+                selectElement.addEventListener("change", function() {
+                    // Update the selected value
+                    selectedValue = selectElement.value;
+                    });
+
+                const options = ['1', '2', '3', '4', '5'];
+                options.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectElement.appendChild(optionElement);
+                });
+
+                // Append the elements to the parent container
+                divElement.appendChild(labelElement);
+                divElement.appendChild(selectElement);
+
+
+            let cartadd = document.createElement('div');
+            cartadd.style.border = "2px solid black";
+            cartadd.style.margin = "2px 90px";
+            cartadd.style.textAlign = "center";
+            cartadd.addEventListener('click', function(){
+                    console.log(Productname);
+                    console.log(name);
+
+                    fetch('http://localhost:8080/cart/' + name + "/"+ Productname + "/" + selectedValue,{
+                        method: 'POST'
+                    })
+                    .then(response => response.json()) 
+                    .then(data => {
+
+
+                        let notify = document.getElementById('notify');
+                        notify.src = "images/grocery-cart.png";
+
+                        let itemcount = document.getElementById('itemcount');
+                        itemcount.textContent = 1;
+
+                       console.log(data);
+                       alert("Saved to cart");
+
+                    }).catch(error => {
+                    console.error('Error:', error);
+                    alert("Add quantity first");
+                     });
+                    
+            })
+            productCart.appendChild(cartadd);
+
+            let carth3 = document.createElement('h3');
+            carth3.textContent = "Add To Cart";
+            carth3.style.margin = "0px";
+            carth3.style.fontSize = "40px";
+            carth3.style.fontWeight = "700";
+            cartadd.appendChild(carth3);
+
+            let hrrt = document.createElement('hr');
+            sidedteails.appendChild(hrrt);
+
+            let productDetails = document.createElement('div');
+            sidedteails.appendChild(productDetails);
+
+            let productheading = document.createElement('h3');
+            productheading.textContent = "Product Details";
+            productheading.style.fontSize = "30px";
+            productheading.style.fontWeight = "100";
+            productheading.style.textDecoration = "underline";
+            productheading.style.textAlign = "center";
+            productDetails.appendChild(productheading);
+
+            let pg = document.createElement("p");
+            pg.style.margin = "30px";
+            pg.textContent = data.result[0].details;
+            productDetails.appendChild(pg);
+
+            
+
+            
+
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+
+
+
+    </script>
+</body>
+</html>

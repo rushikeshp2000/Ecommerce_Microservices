@@ -1,0 +1,101 @@
+Ask About-
+1) Springboot version used , java version used in main project.
+2) exception handling should be declared inside controller interface  
+------------------------------------------------------------
+
+-----------------------------------------------------------------
+
+1) exception handling inside the project--
+    made ErrorResponse class that is used to send the custom response with message and status Code
+    made a ControllerAdvice which has ExpectionHandler which catches the errors
+    made a Custom exception class that exends runtime exception to catch the error with custom message.
+    made a Validatorclass that validates the input  Employee id from the request.
+
+2) mapping of entity to api model class - 
+   made a separate entity class and added extra information in it like UUID,date,string,int
+   made a custom mapping logic
+   used modelMapper depedency to map the entit.
+   - it return only the api class data and hides entity class.
+
+--------------------------------------------------------------------
+1) Use @Mapper for mapping of entity and api class.
+2) add department and address enitity class by using mapping concept
+3) add the status Active inside the employee entity - completed
+4) remove empty database error class - completed
+5) change the response entity
+6) change the swagger file add the endpoint that take can search any value given or not passed then returns all list
+7) use @namedQuiery.
+8) make many to one mapping into department and employeeAddress.
+---------------------------------------------------------------------------
+task completed-
+
+1) removed the DatabaseEmpty Exception class 
+2) Added employee status with type ('Active','Inactive','OnLeave') into database using enumclass and @Enumerated
+3) Made entity classes of Department ,address by using ORM mapping concept @OnetoOne from including in EmployeeEntity
+4) made changes to swagger code , and generated again the api and model now it gives object of department and address also.
+sample swagger code:
+ 
+ {
+  "id": 0,
+  "name": "string",
+  "address": {
+    "Building": "string",
+    "AddressLine": "string",
+    "city": "string"
+  },
+  "department": {
+    "departmentName": "string"
+  }
+}
+5) @mapper - Inside project changed mapper from ModelMapper to Mapstruct which has interface and automatically creates implementation class.  
+
+6) by using swagger generated a controller that takes parameter -in : query and made required=false so when we  give employee  name then it returns list with matching name and if employee name is not passed then it gives list of all employees present inside in database and if we pass name that is not present then I have added custom exception of employee not found
+
+7) I have used @namedquery(custom query) to find the employee by name on the same controller method 
+
+
+---------------------------------------------------------------------------------------------------------
+Projects 
+1) SwaggerWithSpring -- contains working logic of  swagger 
+     spring version - 2.2.5 Release , 
+     java version - 11. 
+     openapi generator - 4.3.1 (provided) 
+     --> remove unecessary dependency
+
+2) SwaggerWithSpringBootdemo2 -- contains working logic of swagger and database connectivity
+     spring version - 2.2.5 Release , 
+     java version - 11. 
+     openapi generator - 4.3.1 (provided) 
+
+3) 
+
+===========================================================================
+mapstruct https://www.youtube.com/watch?v=EVCrLp-k494
+
+
+
+
+
+completed both tasks -  
+Task 1) added ResponseEmployee which has resultlist as a property and it is returned to the client
+Task 2) implemeneted pagination inside the project . 
+
+
+
+
+
+tasks 10/05/202
+1) add expression langauge for pom.xml --> completed
+2) connect with database;  --> completed
+
+---------------------------------------------------------------------------------
+
+22-05-2023
+
+1) use the scroll effect
+2) add the background image change by clicking the button
+3) 
+
+
+------------------------------------------------------------------------------
+1) Study Css selectors.

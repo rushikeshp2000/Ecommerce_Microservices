@@ -1,0 +1,36 @@
+eureka:
+  client:
+    fetch-registry: "true"
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+server:
+  port: 8088
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      mvc:
+        routes: 
+                - id: ORDERSERVICE 
+                  uri: lb://ORDERSERVICE
+                  predicates:
+                   - Path=/order/**
+                - id: CARTSERVICE 
+                  uri: lb://CARTSERVICE
+                  predicates:
+                   - Path=/cart/**
+                - id: PRODUCTSERVICE 
+                  uri: lb://PRODUCTSERVICE
+                  predicates:
+                   - Path=product/**,products/**,admin/**
+                - id: USERSERVICE 
+                  uri: lb://USERSERVICE
+                  predicates:
+                   - Path=/user/**
+               
+                
+           

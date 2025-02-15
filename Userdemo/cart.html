@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+           body{
+            margin: 0;
+        }
+
+        #Logo{
+            margin: 0;
+        }
+
+        #logoimage{
+            width: 200px;
+            height: 90px;
+
+        }
+        
+        .image{
+            height: 30px;
+            width: 30px;
+        }
+
+        #mainnav
+        {
+            width: 100%; 
+            height: 95px;
+        }
+
+        #navbar{
+            display: flex; 
+            background-color: rgb(255, 255, 255);
+            position: fixed; 
+            margin-bottom: 0;
+            box-shadow: grey 8px 8px 15px 2px ;
+            width: 100%; 
+        }
+        .ulbar{
+            display: flex;
+            margin-bottom: 0;
+           
+        }
+
+        .listImages{
+            margin-right:10px;
+            list-style: none;
+           
+        }
+        .listImages2{
+            margin-right: 10px;
+            list-style: none;
+        }
+
+        .linknav{
+            text-decoration: none;
+            color: black;
+            font-size: 10px;
+            font-weight: 600;
+            font-family: cursive;
+            
+        }
+
+        .downlist
+        {
+            margin-top: 10px;
+            margin-left: 30px;
+            margin-bottom: 0;
+           
+        }
+        .navlist{
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: 540px;
+        }
+
+       
+
+        .searchbar{
+            margin-bottom: 10px;
+            margin-left: 300px;
+            width: 300px;
+        }
+
+        #searchicon{
+            margin-top: 20px;
+        }
+
+        .borderone{
+            border: 2px solid black;
+        }
+        #maindiv{
+            padding-top: 100px;
+            display: flex;
+            height: 650px;
+            background-image: url(images/pexels-ovan-62693.jpg)
+            
+        }
+
+        #totalcart{
+            margin: 50px;
+            width: 300px;
+            text-align: center;
+        }
+
+        #cartpage{
+            margin: 30px;
+            width: 1000px;
+        }
+
+        #btn{
+            margin: 0px 100px;
+        }
+
+        #firstdiv{
+            margin: 40px 80px;
+            height: 100px;
+            width: 800px;
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px; 
+        }
+
+        #imgone{
+            margin: 5px;
+        }
+
+        #divdata{
+            margin: 0px 50px;
+            padding: 10px;
+        }
+       
+        .h4data{
+            margin: 5px;
+        }
+
+        #btnbuy{
+            height: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <div id="mainnav">
+            <div id="navbar">
+                <div id="Logo" class="divborder">
+                    <img src="images\logo2jpg.jpg" id="logoimage"alt="Logo">
+                </div>
+                <div class="divborder">
+                    <div>
+                        <input type="text" name="searchbar"  class="searchbar">
+                        <img id="searchicon" src="images\search.jpg" alt="search icon" height="30px" width="30px">
+                    </div>
+                    <ul class="ulbar downlist">
+                        <li class="listImages2 ">HARDWARE</li>
+                        <li class="listImages2 ">KIDS</li>
+                        <li class="listImages2 ">GROCERY</li>
+                        <li class="listImages2 ">ELECTRONICS</li>
+                        <li class="listImages2 ">FASHION</li>
+                        <li class="listImages2 ">DAILY-USE</li>
+                    </ul>
+                </div>
+                <div class="navlist divborder">
+                        <ul class="ulbar ">
+                            <li class="listImages"><img class="image" src="images\logout.jpg" alt="lOGOUT logo"></li>
+                        </ul>
+                        <ul class="ulbar">
+                            <li  class="listImages"><a class="navbarlinks linknav" href="#">LOGOUT</a></li>
+                        </ul>
+                </div>
+            </div>
+        <div>
+    </div>
+    <div class="borderone" id="maindiv">
+            <div class="borderone" id="cartpage">
+                        
+            </div>   
+        <div class="borderone" id="totalcart">
+            <div  id="Totalitems">
+                <h3>Total items</h3>
+            </div>
+            <div class="bordertop" id="Totalprice">
+                <h3>Total Price</h3>  
+            </div>
+            <div id="btn" class="borderone"><h3>Buy All</h3></div>        
+        </div>
+    </div>
+
+  <script>
+
+      
+
+        const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('user');
+            console.log(name);
+            let price = 0;
+
+
+    fetch('http://localhost:8080/cart/'+ name)
+    .then(response => response.json()) // Parse the response as JSON
+    .then(data => {     
+        console.log(data);
+          let array = data.result
+          array.forEach(element => {
+            console.log(element);
+            let parent = document.getElementById("cartpage");
+            let singleentry = document.createElement('div');
+            singleentry.style.margin = "40px 80px";
+            singleentry.style.height = "100px";
+            singleentry.style.width = "800px";
+            singleentry.style.display = "flex";
+            singleentry.style.justifyContent ="space-between";
+            singleentry.style.top ="10px";
+            singleentry.style.border = "2px solid black"
+            parent.appendChild(singleentry);
+
+            let imgelement = element.images[0];
+            
+            let imgbase64 = "data:image/png;base64,";
+            let finalimg = imgelement.imagedata;
+            finalimg = imgbase64 + finalimg; 
+            let imagecart = document.createElement("img");
+            imagecart.src = finalimg;
+            imagecart.alt = "image of product";
+            imagecart.style.margin = "5px";
+            imagecart.addEventListener('click',function()
+            {
+                window.location.href= 'previewProduct.html?user=' + name+'&product='+ element.name ;
+            })
+            singleentry.appendChild(imagecart);
+            
+            let h4one = document.createElement("h4");
+            h4one.textContent = element.name;
+            h4one.addEventListener('click',function()
+            {
+                window.location.href= 'previewProduct.html?user=' + name+'&product='+ element.name ;
+            })
+            singleentry.appendChild(h4one);
+
+            let h4two = document.createElement("h4");
+            h4two.textContent = "Price: " + element.price;
+            price = price + element.price;
+            singleentry.appendChild(h4two);
+            
+            h3quantity = document.createElement('h3');
+            h3quantity.textContent = "Quantity " +  element.quantity;
+            singleentry.appendChild(h3quantity);
+        
+
+            let h3one = document.createElement("h3");
+            h3one.textContent = "BUY";
+            h3one.style.margin = "5px";
+            h3one.style.height = "30px";
+            h3one.setAttribute('id','mybutton');
+            h3one.addEventListener('click', function(){
+                const nameProduct = element.name;
+                console.log(nameProduct);
+                const urlParams = new URLSearchParams(window.location.search);
+                     const name = urlParams.get('user');
+                
+                fetch('http://localhost:8084/order/'+ name +'/'+nameProduct,{
+                  method: 'POST'})
+                    .then(response => response.json()) 
+                    .then(data => {
+
+                        console.log(data);
+
+
+                    }).catch(error => {
+                        console.error('Error:', error);
+                    });
+                    window.location.reload();
+                    window.location.href="order.html?user="+name+"&product="+nameProduct;
+            })
+            h3one.style.border = "2px solid black";         
+            singleentry.appendChild(h3one);
+            
+            let h3two = document.createElement("h3");
+            h3two.textContent = "Delete";
+            h3two.style.margin = "5px";
+            h3two.style.height = "30px";
+            h3two.style.border = "2px solid black";
+            h3two.addEventListener('click', function()
+            {
+                const nameProduct = element.name;
+                console.log(nameProduct);
+                fetch('http://localhost:8080/cart/'+ name +'/'+nameProduct,{
+                  method: 'DELETE'})
+                    .then(response => response.json()) 
+                    .then(data => {
+                        console.log(data);
+                    }).catch(error => {
+                        console.error('Error:', error);
+                    });
+                    window.location.reload();
+            })
+            singleentry.appendChild(h3two);
+
+            let totalitems = document.getElementById("Totalitems");
+            let h3three = document.createElement("h3");
+            h3three.textContent = "product = "+ element.name;
+            totalitems.appendChild(h3three);
+
+            let Tprice = document.getElementById("Totalprice");
+            
+            Tprice.innerHTML = "<h3> Total Price : " + price + "</h3>";
+
+          });
+        // Process the data further or update your application state
+    }).catch(error => {
+        // Handle any errors that occur during the request
+        console.error('Error:', error);
+    });
+  
+      let callbtn = document.getElementById('btn');
+      callbtn.addEventListener('click', function()
+      {
+        const urlParams = new URLSearchParams(window.location.search);
+                     const name = urlParams.get('user');
+
+        fetch('http://localhost:8084/order/'+ name,{
+                  method: 'POST'})
+                    .then(response => response.json()) 
+                    .then(data => {
+                        console.log(data);
+                        
+
+                    }).catch(error => {
+                        console.error('Error:', error);
+                    });
+                  
+                    window.location.reload();
+                    window.location.href="order.html?user="+name;
+      })
+    
+        
+</script>
+
+
+
+</body>
+</html>

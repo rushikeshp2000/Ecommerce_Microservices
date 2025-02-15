@@ -1,0 +1,13 @@
+Step 1) - Making Swagger file with endpoints like get/getAll/delete/post
+Step 2) - From swagger file generating the api Controller Interface and Model classes inside the spring boot
+Step 3) - Making controller that implements api interface, making a Service inteface and implementing it and then at last repository
+Step 4) - Making a Entity class
+step 5) - using mapstruct mapping the model and entity class
+step 6) - Adding exception Handling
+step 7) - Testing on postman
+
+
+to design pages - https://www.canva.com/design/play?locale=en&analyticsCorrelationId=f45e2f92-f901-45f5-800d-0f830a6cc832
+
+merger of images - 
+https://pinetools.com/merge-images

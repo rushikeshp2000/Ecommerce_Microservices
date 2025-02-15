@@ -1,0 +1,87 @@
+25/05/2023 (Thursday)-  Made the UI design,Frontend and Backend design plan
+                      - Made database plan
+		
+26/05/2023  (Friday) - made the mock screens of UI designs of User and Seller
+
+29/05/2023  (Monday) - Made admin mock screens 
+                     - Made Changes to the mock screens of User and Seller 
+
+30/05/2023 (Tuesday) - Made swagger files of Product
+		     - Started implementation of product microservice
+
+31/05/2023 (Wednesday) - Made a product microservice without images (repository(mongodb) , service and controller)
+
+01/06/2023 (Thursday) - made changes to product microservice and saved images to database
+
+02/06/2023 (Friday) - Worked on saving multiple images and converting them to strings so that it can be seen on frontend 
+
+05/06/2023 (Monday) - Made changes to product microservice by adding auditing , exceptions and changed some endpoints
+
+06/06/2023 (Tuesday) - made  implementation of user and seller microservice with login and logout 
+
+07/06/2023 (Wednesday) - made order service and cart microservice and made admin microservice a
+		       - completed backend.
+
+08/06/2023 (Thursday) - started with front end , made user , seller frontend static pages
+
+09/06/2023 (Friday) - connected the backend with frontend , and made all contents dynamic
+
+12/06/2023 (Monday) - worked on admin frontend and remaining pages of seller.
+
+13/06/2023 (Tuesday) - worked on remaining pages of seller and improved UI of seller and user. 
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Pending tasks - 
+
+
+
+
+//4) implementing a Http  session for handling logout.
+
+
+------currently doing -------------------------
+
+//2) Adding a cart notification ----
+
+--> 3) Adding the search bar .
+
+--> 4) Improving all the UI of all services
+
+//6)  Adding a single microservice instead of 3 services
+
+  
+	?name= hardware&category=hardware
+
+	1) name and category
+
+
+
+--------------------------------------------------------completed----------------------------------------------------
+common changes
+1) changing the quantity when user places the order.
+
+2) Order history  -> Sort by seller 
+ 	table section 
+a)
+b) -->   products
+c)
+
+
+
+User changes:
+1) add quantity on preview product.
+2) go to product details when clicked on cart entry.
+
+Seller changes:
+1) dynamic category
+2) Category heading on top of sellerhome
+3) discontinue  product on preview page.
+4) discontinue the category on category page.
+
+1) flag for the category.
+
+
+
+

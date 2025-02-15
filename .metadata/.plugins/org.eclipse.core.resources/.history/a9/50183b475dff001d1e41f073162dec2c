@@ -1,0 +1,10 @@
+{
+  "modelPackage": "com.ecommerce.productService.api.model",
+  "apiPackage": "com.ecommerce.productService.api.controller",
+  "invokerPackage": "com.ecommerce.productService.api.handler",
+  "groupId": "com.ecommerce.productService",
+  "artifactId": "Product",
+  "fullJavaUtil": false,
+  "dateLibrary": "java8",
+  "generateSupportingFiles": false
+}

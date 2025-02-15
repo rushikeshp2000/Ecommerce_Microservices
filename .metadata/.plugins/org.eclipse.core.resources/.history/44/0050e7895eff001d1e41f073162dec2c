@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Swagger Demo Project - OpenAPI 3.0
+  description: |-
+    demo of creating a microservice using the swagger file.
+  version: 1.0.0
+
+  
+paths:
+  /company/employees:
+    get:
+      summary: this is a employee summary
+      description: get all the employee
+      operationId: getAllEmployeesFromCompany
+      responses:
+        '200':
+          description: okay accepted
+          content: 
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Employee'
+                  
+                  
+components:
+  schemas:
+    Employee:
+      description: This is the employee model
+      type: object
+      properties:
+        id:
+          description: the id of employee
+          type: integer
+        name:
+          description: the name of employee
+          type: string
+        address:
+          description: the address of employee
+          type: string

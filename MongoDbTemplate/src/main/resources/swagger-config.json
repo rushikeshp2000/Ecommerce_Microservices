@@ -1,0 +1,11 @@
+{
+  "modelPackage": "com.template.mongodb.model",
+  "apiPackage": "com.template.mongodb.controller",
+  "invokerPackage": "com.template.mongodb.handler",
+  "groupId": "com.mongodb",
+  "artifactId": "MongoDbTemplate",
+  "fullJavaUtil": false,
+  "dateLibrary": "java8",
+  "generateSupportingFiles": false
+}
+

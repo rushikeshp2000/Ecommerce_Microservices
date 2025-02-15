@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            background-image: url(images/pexels-ovan-62693.jpg);
+        }
+
+        .Orderpage{
+            border: 2px solid black;
+            margin: 100px 500px;
+           
+        }
+
+
+        #Layout{
+            margin: 10px;
+            border: 2px solid black;
+        }
+
+        .head
+        {
+            text-align: center;
+            margin: 0;
+            padding-top: 30px;
+            border-bottom: 2px solid black;
+            height: 60px;
+        }
+
+        .h3add{
+            margin-left: 5px;
+            font-family: cursive;
+        }
+
+        #h4add{
+            font-family: cursive;
+            text-align: center;
+            border: 2px solid black;
+            margin: 10px 80px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="Orderpage">
+        <div id="orderdetails">
+            <h3 class="head">Order Details</h3>
+        </div>
+        <div id="Layout">
+            <div id="innerdesign">
+                <h3 class="h3add">Deliver To,</h3>
+            </div>
+            <div id="confirm">
+                <div id="submit">
+                    <h4 id="h4add">Confirm</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+         const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('user');
+            console.log(name);
+
+            fetch('http://localhost:8085/user/'+name)
+        .then(response => response.json()) // Parse the response as JSON
+        .then(data => {
+            console.log(data);
+            let parentdata = document.getElementById('innerdesign');
+
+            let h3one = document.createElement('h3');
+            h3one.textContent = "Name: " + data.name;
+            h3one.style.margin = "15px"
+            h3one.style.fontSize = "20px"
+            h3one.style.fontFamily = "cursive";
+            parentdata.appendChild(h3one);
+
+            let h3two = document.createElement('h3');
+            h3two.textContent = "Address: "+ data.address  ;
+            h3two.style.margin = "15px"
+            h3two.style.fontSize = "20px"
+            h3two.style.fontFamily = "cursive";
+            parentdata.appendChild(h3two);
+
+            let h3three = document.createElement('h3');
+            h3three.textContent = "email: " + data.email;
+            h3three.style.margin = "15px"
+            h3three.style.fontSize = "20px"
+            h3three.style.fontFamily = "cursive";
+            parentdata.appendChild(h3three);
+
+            let h3four = document.createElement('h3');
+            h3four.textContent = "phone: " + data.phone;
+            h3four.style.margin = "15px"
+            h3four.style.fontSize = "20px"
+            h3four.style.fontFamily = "cursive";
+            parentdata.appendChild(h3four);
+
+    
+        }).catch(error => {
+            // Handle any errors that occur during the request
+            console.error('Error:', error);
+        });
+
+        let submit = document.getElementById("submit");
+        submit.addEventListener('click',function(){
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('user');
+            console.log(name);
+            window.location.href = "cart.html?user="+name;
+        })
+
+    </script>
+</body>
+</html>

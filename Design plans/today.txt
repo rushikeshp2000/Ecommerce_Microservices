@@ -1,0 +1,42 @@
+create a yml configuration file and visualize it into swagger.io and make the interface that will have Api and another class the implements the task.
+
+1) yaml
+2) read data - https://www.youtube.com/watch?v=0BPBK4T-FEw&list=PLtsTccOGFwUIcbQnwl2Ta6IUNFi02py1_&index=9
+
+------------------------------------------------------------------------------------------
+Swagger 
+
+openapi : 3.0.0 -- compulsory field to add.
+https://www.youtube.com/watch?v=mViFmjcDOoA
+https://www.youtube.com/watch?v=YmQyzNF5iKg
+--------------------------------------------------------------------------------
+there are two approaches
+1) a top down approach - first yaml then project.
+2) bottom up approach -  first project then yaml.
+
+
+erros solved -
+
+3) fixed the pom.xml file not showing error
+4) added the <plugin-management> tag to solve the execution error
+
+not of any use - 
+1) dependency errors added javax validations and javax annotations -- suggested by offical documentation
+2) Tried jakarta instead of javax
+5) tried with swagger2 
+6) changed the language from "spring" to "java"
+-----------------------------------------------------------------------------------------------------
+1) in the swagger.io we have the option to create a server spring files
+2) Install swagger codegen
+--------------------------------------------------------------------------------------------------------------
+
+OpenApi generator - The openapi-generator-maven-plugin is a Maven plugin that allows you to generate client and server code from an OpenAPI/Swagger definition. It's similar to the swagger-codegen-maven-plugin, but it's designed to work with the newer OpenAPI standard.
+Both the openapi-generator-maven-plugin and the swagger-codegen-maven-plugin are Maven plugins that allow you to generate client and server code from an OpenAPI/Swagger definition. However, there are some differences between the two plugins:
+OpenAPI/Swagger support: The openapi-generator-maven-plugin is designed to work specifically with the OpenAPI standard, while the swagger-codegen-maven-plugin is designed to work with both OpenAPI and Swagger.
+Code generation: The openapi-generator-maven-plugin uses code generation templates to generate code, while the swagger-codegen-maven-plugin uses code generation modules. The openapi-generator-maven-plugin has a more modular architecture, which makes it easier to customize the generated code.
+Configuration options: The two plugins have slightly different configuration options. For example, the openapi-generator-maven-plugin has an option to generate only API interfaces (interfaceOnly), while the swagger-codegen-maven-plugin does not have this option.
+Project maturity: The swagger-codegen-maven-plugin has been around for longer and is more mature than the openapi-generator-maven-plugin. It has a larger community and more resources available for troubleshooting and customization.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Profiles - Spring profiles proide a way to segregate parts of your applicaton configurations and make it be available only it certain environments.
