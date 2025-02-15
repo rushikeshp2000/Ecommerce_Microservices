@@ -1,0 +1,227 @@
+openapi: 3.0.0
+info:
+  title: User MicroService 
+  description: Part of Ecommerce project, Handles User requests and generate response  
+  version: 1.0.0
+tags:
+  -  name: Cart
+     description: cart endpoint set
+     
+paths:
+
+
+    
+  /cart/{UserId}:
+      get:
+        tags:
+            - Cart
+        summary: get all products of cart
+        description: This is used to get the cart.
+        operationId: getAllUser
+        parameters:
+          - in: path
+            name: UserId
+            required: true
+            schema:
+              type: string
+              description: user id to store in database
+        responses:
+          '200':
+            description: Succesfull operation.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CartResponse'
+                  
+      delete:
+        tags:
+          - Cart
+        summary: Delete all product
+        description: This is a delete all product.
+        operationId: deleteAllProduct
+        parameters:
+            - in: path
+              name: UserId
+              required: true
+              schema:
+                type: string
+                description: user id to delete in database
+        responses:
+          '200':
+            description: Succesfull operation.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CartResponse'
+  
+  /cart/{UserId}/{ProductName}:          
+      get:
+        tags:
+            - Cart
+        summary: get all products of cart
+        description: This is used to get the cart.
+        operationId: GetSingleCart
+        parameters:
+          - in: path
+            name: UserId
+            required: true
+            schema:
+              type: string
+              description: user id to store in database
+          - in: path
+            name: ProductName
+            required: true
+            schema:
+              type: string
+              description: product name to save in database
+        responses:
+          '200':
+            description: Succesfull operation.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CartResponse'
+
+            
+      
+      
+      delete:
+        tags:
+          - Cart
+        summary: Delete product
+        description: This is a delete product.
+        operationId: deleteProduct
+        parameters:
+            - in: path
+              name: ProductName
+              required: true
+              schema:
+                type: string
+                description: product name to delete in database
+            - in: path
+              name: UserId
+              required: true
+              schema:
+                type: string
+                description: user id to delete in database
+        responses:
+          '200':
+            description: Succesfull operation.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CartResponse'
+            
+  /cart/{UserId}/{ProductName}/{quantity}:
+    post:
+        tags:
+          - Cart
+        summary: change the details of single product from cart
+        description: change  a single product by matching name
+        operationId: updateSingleProducts
+        parameters:
+          - in: path
+            name: ProductName
+            required: true
+            schema:
+              type: string
+              description: product name to change
+          - in: path
+            name: UserId
+            required: true
+            schema:
+              type: string
+              description: user id to change in database
+          - in: path
+            name: quantity
+            required: true
+            schema:
+              type: string
+              description: quantity to change in database
+      
+        responses:
+          '200':
+            description: okay accepted
+            content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/CartResponse'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorApiResponse' 
+            
+  
+components:
+  schemas:
+  
+    CartResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+        statusMessage:
+          type: string
+          example: Operation completed successful
+        result:
+          type: array
+          items:
+           $ref: '#/components/schemas/Response'  
+            
+    Response:
+      type: object
+      properties:
+        name :
+          type: string
+          example : shoes
+        price:
+          type: number
+          format: double
+          example: 12.25
+        quantity:
+          type: integer
+          example: 10
+        sellerNumber:
+          type: string
+        category:
+          type: string
+        TotalPrice:
+          type: number
+          format: double
+        images:
+          type: array
+          items:
+             $ref: '#/components/schemas/ImageModel' 
+        
+    ImageModel:
+      description: This is the image model
+      type: object
+      properties:
+        imageName:
+          type: string
+          example: image
+        imageType:
+          type: string
+          example: jpeg
+        imagedata:
+          type: string
+      
+    ErrorApiResponse:
+      title: ErrorApiResponse
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        statusMessage:
+          type: string
+          
+        
+        
+        
+        
+        

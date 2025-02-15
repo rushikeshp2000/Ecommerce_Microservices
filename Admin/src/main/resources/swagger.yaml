@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: Seller MicroService 
+  description: Part of Ecommerce project, Handles seller requests and generate response  
+  version: 1.0.0
+tags:
+  -  name: seller
+     description: User endpoint set
+     
+paths:
+
+  /seller:
+    get:
+      tags:
+        - seller
+      summary: gets all the users
+      description: This is used to give all the information to admin
+      operationId: AdminUser
+      responses:
+        '200':
+          description: Succesfull operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+        '400':
+          $ref: '#/components/schemas/ErrorApiResponse'
+
+
+  /seller/register:
+     post:
+      tags:
+        - seller
+      summary: Create new user / Register a new User
+      description: This is used to create the user.
+      operationId: createUser
+      requestBody:
+        required: true
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: Succesfull operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userResponse'
+        '400':
+          $ref: '#/components/schemas/ErrorApiResponse'
+    
+  /seller/login: 
+    get:
+      tags:
+        - seller
+      summary: Login the user / Login the User
+      description: This is used to login the user.
+      operationId: loginUser
+      parameters:
+        - in: query
+          name: email
+          required: true
+          schema:
+            type: string
+            description: email of the user
+        - in: query
+          name: password
+          required: true
+          schema:
+            type: string
+            description: password of the user
+      responses:
+        '200':
+          description: Succesfull operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userResponse'
+                
+  /seller/{sellerId}:
+    put:
+      tags:
+      - seller
+      summary: change the status of the seller
+      description: change the status of seller to active.
+      operationId: ActiveSeller
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+            description: sellerid
+      responses:
+        '200':
+          description: Succesfull operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+    
+    delete:
+      tags:
+       - seller
+      summary: change the status of the seller 
+      description: change the status of seller to inactive.
+      operationId: InActiveSeller
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+            description: sellerid
+      responses:
+        '200':
+          description: Succesfull operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+                
+    get:
+      tags:
+       - seller
+      summary: get the user details for admin 
+      description: view one seller.
+      operationId: singleseller
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+            description: sellerid
+      responses:
+        '200':
+          description: Succesfull operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminResponse'
+    
+      
+  
+  
+  
+components:
+  schemas:
+    UserRequest:
+      type: object
+      required:
+        - Name
+        - Address
+        - email
+        - phone
+        - password
+      properties:
+        Name:
+          type: string
+          example: John
+        Address:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        phone:
+          type: number
+          example: 985545513
+        password:
+          type: string
+          example: pass@123
+          
+    userResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+        
+        statusMessage:
+          type: string
+          example: Operation completed successful
+        
+        result:
+          type: object
+          properties:
+            name:
+              type: string
+              example: John
+            address:
+              type: string
+              example: James
+            email:
+              type: string
+              example: john@email.com
+            phone:
+              type: number
+              example: 9855455
+    
+    AdminResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 200
+        
+        statusMessage:
+          type: string
+          example: Operation completed successful
+        
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              id: 
+                type: string
+              name:
+                type: string
+                example: John
+              address:
+                type: string
+                example: James
+              email:
+                type: string
+                example: john@email.com
+              phone:
+                type: number
+                example: 9855455
+              status:
+                type: string
+      
+    ErrorApiResponse:
+      title: ErrorApiResponse
+      type: object
+      properties:
+        errorMessages:
+          type: array
+          items:
+            type: string
+        statusCode:
+          type: integer
+          format: int32
+        statusMessage:
+          type: string
+          
+        
+
+        
+        
+        
+        

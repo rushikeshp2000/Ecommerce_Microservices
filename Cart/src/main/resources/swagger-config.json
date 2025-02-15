@@ -1,0 +1,10 @@
+{
+  "modelPackage": "com.ecommerce.cart.model",
+  "apiPackage": "com.ecommerce.cart.controller",
+  "invokerPackage": "com.ecommerce.cart.handler",
+  "groupId": "com.ecommerce.cart",
+  "artifactId": "Cart",
+  "fullJavaUtil": false,
+  "dateLibrary": "java8",
+  "generateSupportingFiles": false
+}
